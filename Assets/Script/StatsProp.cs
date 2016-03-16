@@ -2,57 +2,57 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
+public enum StatsPropType
+{
+	HP,
+	MAX_HP,
+	STR,
+	DEX,
+	MAG,
+	DEF,
+	SIGHT,
+	ATK_RANGE,
+	ATK_SPEED,
+	XP,
+	DEATH_XP,
+	GOLD,
+	DEATH_GOLD,
+	COUNT
+}
 
 [System.Serializable]
 public class StatsProp {
-	public enum Type
-	{
-		HP,
-		MAX_HP,
-		STR,
-		DEX,
-		MAG,
-		DEF,
-		SIGHT,
-		ATK_RANGE,
-		ATK_SPEED,
-		XP,
-		DEATH_XP,
-		GOLD,
-		DEATH_GOLD,
-		COUNT
-	}
+
 
 	[System.Serializable]
 	public struct Prop
 	{
-		public Type type;
+		public StatsPropType type;
 		public float value;
 	}
 
-	[SerializeField]
-	List<Prop>	m_propsForInspector;
+	Dictionary<StatsPropType, float>	m_props = new Dictionary<StatsPropType, float>();
+	Dictionary<StatsPropType, float>	m_baseProps = null;
 
-	Dictionary<Type, float>	m_props = new Dictionary<Type, float>();
-
-	public void Init()
+	public void Init(Dictionary<StatsPropType, float> baseProps)
 	{
-		for(int i = 0; i < m_propsForInspector.Count; ++i)
-		{
-			m_props.Add(m_propsForInspector[i].type, m_propsForInspector[i].value);
-		}
+		m_baseProps = baseProps;
+		HP = (int)m_baseProps[StatsPropType.MAX_HP];
 	}
 
-	public float GetValue(Type type)
+	public float GetValue(StatsPropType type)
 	{
-		if (false == m_props.ContainsKey(type))
-			return 0f;
+		float baseValue = 0;
+		float alphaValue = 0;
+		if (true == m_baseProps.ContainsKey(type))
+			baseValue = m_baseProps[type];
+		if (true == m_props.ContainsKey(type))
+			alphaValue = m_props[type];
 
-		return m_props[type];
+		return baseValue+alphaValue;
 	}
 
-	public void SetValue(Type type, float value)
+	public void SetValue(StatsPropType type, float value)
 	{
 		if (false == m_props.ContainsKey(type))
 		{
@@ -65,10 +65,10 @@ public class StatsProp {
 
 	public int HP
 	{
-		get { return (int)GetValue(Type.HP);}
+		get { return (int)GetValue(StatsPropType.HP);}
 		set 
 		{
-			SetValue(Type.HP, Mathf.Clamp(value, 0f, GetValue(Type.MAX_HP)));
+			SetValue(StatsPropType.HP, Mathf.Clamp(value, 0f, GetValue(StatsPropType.MAX_HP)));
 		}
 	}
 
@@ -79,7 +79,7 @@ public class StatsProp {
 
 	public int Level
 	{
-		get {return (int)(1+GetValue(Type.XP)/Helper.XPBlock);}
+		get {return (int)(1+GetValue(StatsPropType.XP)/Helper.XPBlock);}
 	}
 
 

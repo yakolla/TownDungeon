@@ -46,7 +46,7 @@ if (GraphUpdateUtilities.UpdateGraphsNoBlock (guo, spawnPointNode, goalNode, fal
 }
 \endcode
 		 */
-		public static bool UpdateGraphsNoBlock (GraphUpdateObject guo, GraphNode node1, GraphNode node2, bool alwaysRevert = false) {
+		public static bool UpdateGraphsNoBlock (GraphUpdateObject guo, GraphNode node1, GraphNode node2, bool alwaysRevert /*= false*/) {
 			List<GraphNode> buffer = ListPool<GraphNode>.Claim ();
 			buffer.Add (node1);
 			buffer.Add (node2);
@@ -71,7 +71,7 @@ if (GraphUpdateUtilities.UpdateGraphsNoBlock (guo, spawnPointNode, goalNode, fal
 		 *
 		 * \returns True if the given nodes are still reachable from each other after the \a guo has been applied. False otherwise.
 		 */
-		public static bool UpdateGraphsNoBlock (GraphUpdateObject guo, List<GraphNode> nodes, bool alwaysRevert = false) {
+		public static bool UpdateGraphsNoBlock (GraphUpdateObject guo, List<GraphNode> nodes, bool alwaysRevert /*= false*/) {
 
 			//Make sure all nodes are walkable
 			for (int i=0;i<nodes.Count;i++) if (!nodes[i].Walkable) return false;

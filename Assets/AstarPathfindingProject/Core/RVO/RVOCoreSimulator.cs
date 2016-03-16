@@ -454,14 +454,14 @@ namespace Pathfinding.RVO {
 		 */
 		public ObstacleVertex AddObstacle (Vector3[] vertices, float height) {
 			
-			return AddObstacle (vertices, height, Matrix4x4.identity);
+			return AddObstacle (vertices, height, Matrix4x4.identity, RVOLayer.DefaultObstacle);
 		}
 
 		/** Adds an obstacle described by the vertices.
 		 * 
 		 * \see RemoveObstacle
 		 */
-		public ObstacleVertex AddObstacle (Vector3[] vertices, float height, Matrix4x4 matrix, RVOLayer layer = RVOLayer.DefaultObstacle) {
+		public ObstacleVertex AddObstacle (Vector3[] vertices, float height, Matrix4x4 matrix, RVOLayer layer /*= RVOLayer.DefaultObstacle*/) {
 			
 			if (vertices == null) throw new System.ArgumentNullException ("Vertices must not be null");
 			

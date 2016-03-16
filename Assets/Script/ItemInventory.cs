@@ -12,18 +12,6 @@ public class ItemInventory {
 	[SerializeField]
 	List<Item>	m_items;
 
-	public void Init () {
-		for (int i = 0; i < m_equipItems.Count; ++i)
-		{
-			m_equipItems[i].Init();
-		}
-
-		for (int i = 0; i < m_items.Count; ++i)
-		{
-			m_items[i].Init();
-		}
-	}
-
 	public List<Item> Items
 	{
 		get {return m_items;}

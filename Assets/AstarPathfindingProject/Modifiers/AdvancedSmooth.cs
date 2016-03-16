@@ -704,7 +704,7 @@ namespace Pathfinding {
 				}
 			}
 			
-			public Turn (float length, TurnConstructor constructor, int id = 0) {
+			public Turn (float length, TurnConstructor constructor, int id /* 0*/) {
 				this.length = length;
 				this.id = id;
 				this.constructor = constructor;

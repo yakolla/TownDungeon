@@ -102,7 +102,7 @@ namespace Pathfinding
 		 * \returns A List<Node> containing all nodes reachable from the seed node.
 		 * For better memory management the returned list should be pooled, see Pathfinding.Util.ListPool
 		 */
-		public static List<GraphNode> GetReachableNodes (GraphNode seed, int tagMask = -1) {
+		public static List<GraphNode> GetReachableNodes (GraphNode seed, int tagMask /* = -1*/) {
 #if ASTAR_PROFILE
 			System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 			watch.Start ();
@@ -171,7 +171,7 @@ namespace Pathfinding
 		 * 
 		 * \warning This method is not thread safe. Only use it from the Unity thread (i.e normal game code).
 		 */
-		public static List<GraphNode> BFS (GraphNode seed, int depth, int tagMask = -1) {
+		public static List<GraphNode> BFS (GraphNode seed, int depth, int tagMask /*= -1*/) {
 			#if ASTAR_PROFILE
 			System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 			watch.Start ();
@@ -404,7 +404,7 @@ namespace Pathfinding
 		 * 
 		 * clearanceRadius will be reduced if no valid points can be found.
 		 */
-		public static List<Vector3> GetPointsOnNodes (List<GraphNode> nodes, int count, float clearanceRadius = 0) {
+		public static List<Vector3> GetPointsOnNodes (List<GraphNode> nodes, int count, float clearanceRadius /*= 0*/) {
 			
 			if (nodes == null) throw new System.ArgumentNullException ("nodes");
 			if (nodes.Count == 0) throw new System.ArgumentException ("no nodes passed");

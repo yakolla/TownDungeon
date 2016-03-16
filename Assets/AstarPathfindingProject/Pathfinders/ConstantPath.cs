@@ -58,7 +58,7 @@ mySeeker.StartPath (cpath, myCallbackFunction);
 		 * \param callback			Will be called when the path has completed, leave this to null if you use a Seeker to handle calls
 		 *
 		 * Searching will be stopped when a node has a G score (cost to reach it) greater than \a maxGScore */
-		public static ConstantPath Construct (Vector3 start, int maxGScore, OnPathDelegate callback = null) {
+		public static ConstantPath Construct (Vector3 start, int maxGScore, OnPathDelegate callback) {
 			ConstantPath p = PathPool<ConstantPath>.GetPath ();
 			p.Setup (start,maxGScore,callback);
 			return p;

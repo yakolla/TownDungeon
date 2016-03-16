@@ -142,13 +142,13 @@ public class AstarPathEditor : Editor {
 		}
 
 		SetAstarEditorSettings ();
-		CheckGraphEditors ();
+		CheckGraphEditors (false);
 
 		for (int i=0;i<graphEditors.Length;i++) {
 			if (graphEditors[i] != null) graphEditors[i].OnDisable ();
 		}
 
-		SaveGraphsAndUndo ();
+		SaveGraphsAndUndo (EventType.Used, "");
 	}
 
 	public void OnDestroy () {
@@ -303,7 +303,7 @@ public class AstarPathEditor : Editor {
 
 		Undo.RecordObject (script, "A* inspector");
 
-		CheckGraphEditors ();
+		CheckGraphEditors (false);
 
 		//End loading and checking
 
@@ -478,7 +478,7 @@ public class AstarPathEditor : Editor {
 		DrawFirstRun ();
 
 		//Show the graph inspectors
-		CheckGraphEditors ();
+		CheckGraphEditors (false);
 
 		EditorGUILayoutx.FadeArea graphsFadeArea = guiLayoutx.BeginFadeArea (script.showGraphs,"Graphs", "showGraphInspectors", EditorGUILayoutx.defaultAreaStyle, topBoxHeaderStyle);
 		script.showGraphs = graphsFadeArea.open;
@@ -765,7 +765,7 @@ public class AstarPathEditor : Editor {
 					graphEditors[next] = graphEditors[index];
 					graphEditors[index] = tmpEditor;
 				}
-				CheckGraphEditors ();
+				CheckGraphEditors (false);
 				Repaint ();
 			}
 			if (GUILayout.Button (new GUIContent ("Down","Decrease the graph priority"),GUILayout.Width (40))) {
@@ -784,7 +784,7 @@ public class AstarPathEditor : Editor {
 					graphEditors[next] = graphEditors[index];
 					graphEditors[index] = tmpEditor;
 				}
-				CheckGraphEditors ();
+				CheckGraphEditors (false);
 				Repaint ();
 			}
 		}
@@ -886,7 +886,7 @@ public class AstarPathEditor : Editor {
 		//Some GUI controls might change this to Used, so we need to grab it here
 		EventType et = Event.current.type;
 
-		CheckGraphEditors ();
+		CheckGraphEditors (false);
 		for (int i=0;i<script.graphs.Length;i++) {
 
 			NavGraph graph = script.graphs[i];
@@ -898,7 +898,7 @@ public class AstarPathEditor : Editor {
 			graphEditors[i].OnSceneGUI (graph);
 		}
 
-		SaveGraphsAndUndo (et);
+		SaveGraphsAndUndo (et, "");
 
 		if (GUI.changed) {
 			EditorUtility.SetDirty (target);
@@ -907,7 +907,7 @@ public class AstarPathEditor : Editor {
 		}
 	}
 
-	TextAsset SaveGraphData ( byte[] bytes, TextAsset target = null ) {
+	TextAsset SaveGraphData ( byte[] bytes, TextAsset target /*= null*/ ) {
 		string projectPath = System.IO.Path.GetDirectoryName (Application.dataPath) + "/";
 
 		string path;
@@ -1018,7 +1018,7 @@ public class AstarPathEditor : Editor {
 					"in a separate file.", MessageType.Error );
 
 				if (GUILayout.Button ("Transfer cache data to separate file")) {
-					script.astarData.file_cachedStartup = SaveGraphData ( script.astarData.data_cachedStartup );
+					script.astarData.file_cachedStartup = SaveGraphData ( script.astarData.data_cachedStartup, null );
 					script.astarData.data_cachedStartup = null;
 				}
 			}
@@ -1426,7 +1426,7 @@ public class AstarPathEditor : Editor {
 	}
 
 	/** Make sure every graph has a graph editor */
-	void CheckGraphEditors (bool forceRebuild = false) {
+	void CheckGraphEditors (bool forceRebuild /*= false*/) {
 		if (forceRebuild || graphEditors == null || script.graphs == null || script.graphs.Length != graphEditors.Length) {
 
 			if (script.graphs == null) {
@@ -1487,14 +1487,14 @@ public class AstarPathEditor : Editor {
 	void RemoveGraph (NavGraph graph) {
 		guiLayoutx.RemoveID (graph.guid.ToString());
 		script.astarData.RemoveGraph (graph);
-		CheckGraphEditors ();
+		CheckGraphEditors (false);
 		GUI.changed = true;
 		Repaint ();
 	}
 
 	void AddGraph (System.Type type) {
 		script.astarData.AddGraph (type);
-		CheckGraphEditors ();
+		CheckGraphEditors (false);
 
 		GUI.changed = true;
 	}
@@ -1519,7 +1519,7 @@ public class AstarPathEditor : Editor {
 
 		AstarProfiler.StartProfile ("OnDrawGizmosEditor");
 
-		CheckGraphEditors ();
+		CheckGraphEditors (false);
 
 		for (int i=0;i<script.graphs.Length;i++) {
 
@@ -1591,7 +1591,7 @@ public class AstarPathEditor : Editor {
 			HandleUndo ();
 		}
 
-		CheckGraphEditors ();
+		CheckGraphEditors (false);
 		// Deserializing a graph does not necessarily yield the same hash as the data loaded from
 		// this is (probably) because editor settings are not saved all the time
 		// so we explicitly ignore the new hash
@@ -1599,7 +1599,7 @@ public class AstarPathEditor : Editor {
 		ignoredChecksum = checksum;
 	}
 
-	public void SaveGraphsAndUndo (EventType et = EventType.Used, string eventCommand = "" ) {
+	public void SaveGraphsAndUndo (EventType et /*= EventType.Used*/, string eventCommand /*= ""*/ ) {
 		// Serialize the settings of the graphs
 
 		// Dont process undo events in editor, we don't want to reset graphs
@@ -1652,7 +1652,7 @@ public class AstarPathEditor : Editor {
 		}));
 
 		// Make sure the above work item is executed immediately
-		AstarPath.active.FlushWorkItems();
+		AstarPath.active.FlushWorkItems(true, false);
 		checksum = ch;
 		return bytes;
 	}
@@ -1675,20 +1675,20 @@ public class AstarPathEditor : Editor {
 				script.astarData.DeserializeGraphsPart (sr);
 
 				// Make sure every graph has a graph editor
-				CheckGraphEditors ();
+				CheckGraphEditors (false);
 				sr.DeserializeEditorSettings (graphEditors);
 
 				sr.CloseDeserialize();
 			} else {
 				Debug.LogWarning ("Invalid data file (cannot read zip).\nThe data is either corrupt or it was saved using a 3.0.x or earlier version of the system");
 				// Make sure every graph has a graph editor
-				CheckGraphEditors ();
+				CheckGraphEditors (false);
 			}
 			return true;
 		}));
 
 		// Make sure the above work item is run directly
-		AstarPath.active.FlushWorkItems();
+		AstarPath.active.FlushWorkItems(true, false);
 	}
 
 	[MenuItem ("Edit/Pathfinding/Scan All Graphs %&s")]

@@ -97,7 +97,7 @@ namespace Pathfinding.Util {
 				 1, 0
 			};
 			
-			public TileType (Int3[] sourceVerts, int[] sourceTris, Int3 tileSize, Int3 centerOffset, int width=1, int depth=1) {
+			public TileType (Int3[] sourceVerts, int[] sourceTris, Int3 tileSize, Int3 centerOffset, int width/*=1*/, int depth/*=1*/) {
 				if (sourceVerts == null) throw new ArgumentNullException ("sourceVerts");
 				if (sourceTris == null) throw new ArgumentNullException ("sourceTris");
 				
@@ -136,7 +136,7 @@ namespace Pathfinding.Util {
 			 * \param depth The number of base tiles this tile type occupies on the z-axis
 			 * \param tileSize Size of a single tile, the y-coordinate will be ignored.
 			 */
-			public TileType (Mesh source, Int3 tileSize, Int3 centerOffset, int width=1, int depth=1) {
+			public TileType (Mesh source, Int3 tileSize, Int3 centerOffset, int width/*=1*/, int depth/*=1*/) {
 				if (source == null) throw new ArgumentNullException ("source");
 				
 				Vector3[] vectorVerts = source.vertices;
@@ -211,7 +211,7 @@ namespace Pathfinding.Util {
 		 * 
 		 * \returns Identifier for loading that tile type
 		 */
-		public TileType RegisterTileType (Mesh source, Int3 centerOffset, int width = 1, int depth=1) {
+		public TileType RegisterTileType (Mesh source, Int3 centerOffset, int width /*= 1*/, int depth /*=1*/) {
 			var tp = new TileType(source, new Int3(graph.tileSizeX,1,graph.tileSizeZ)*(Int3.Precision*graph.cellSize), centerOffset, width, depth);
 			tileTypes.Add(tp);
 			return tp;
@@ -227,7 +227,7 @@ namespace Pathfinding.Util {
 				for (int x=0;x<graph.tileXCount;x++) {
 					RecastGraph.NavmeshTile tile = tiles[x + z*graph.tileXCount];
 					
-					Bounds b = graph.GetTileBounds(x,z);
+					Bounds b = graph.GetTileBounds(x,z,1,1);
 					var min = (Int3)b.min;
 					Int3 size = new Int3(graph.tileSizeX,1,graph.tileSizeZ)*(Int3.Precision*graph.cellSize);
 					min += new Int3(size.x*tile.w/2,0,size.z*tile.d/2);
@@ -296,7 +296,7 @@ namespace Pathfinding.Util {
 		 * \note I am sorry for the really messy code in this method.
 		 * It really needs to be refactored.
 		 */
-		void CutPoly (Int3[] verts, int[] tris, ref Int3[] outVertsArr, ref int[] outTrisArr, out int outVCount, out int outTCount, Int3[] extraShape, Int3 cuttingOffset, Bounds realBounds, CutMode mode = CutMode.CutAll | CutMode.CutDual, int perturbate = 0) {
+		void CutPoly (Int3[] verts, int[] tris, ref Int3[] outVertsArr, ref int[] outTrisArr, out int outVCount, out int outTCount, Int3[] extraShape, Int3 cuttingOffset, Bounds realBounds, CutMode mode /*= CutMode.CutAll | CutMode.CutDual*/, int perturbate /*= 0*/) {
 			
 			// Nothing to do here
 			if (verts.Length == 0 || tris.Length == 0) {
@@ -354,7 +354,7 @@ namespace Pathfinding.Util {
 			var polyCache = new Stack<Poly2Tri.Polygon>();
 			
 			//Lazy initialization
-			clipper = clipper ?? new Clipper();
+			clipper = clipper ?? new Clipper(0);
 			
 			clipper.ReverseSolution = true;
 			clipper.StrictlySimple = true;
@@ -1137,11 +1137,11 @@ namespace Pathfinding.Util {
 			//Calculate tile bounds so that the correct cutting offset can be used
 			//The tile will be cut in local space (i.e it is at the world origin) so cuts need to be translated
 			//to that point from their world space coordinates
-			Bounds r = graph.GetTileBounds(x,z);
+			Bounds r = graph.GetTileBounds(x,z,1,1);
 			var cutOffset = (Int3)r.min;
 			cutOffset = -cutOffset;
 			
-			CutPoly (tverts, ttris, ref verts, ref tris, out vCount, out tCount, shape, cutOffset, r, CutMode.CutExtra);
+			CutPoly (tverts, ttris, ref verts, ref tris, out vCount, out tCount, shape, cutOffset, r, CutMode.CutExtra, 0);
 			
 			for (int i=0; i < verts.Length; i++ ) verts[i] -= cutOffset;
 		}
@@ -1235,7 +1235,7 @@ namespace Pathfinding.Util {
 				int vCount, tCount;
 				
 				//Cut the polygon
-				CutPoly (verts, tris, ref outVerts, ref outTris, out vCount, out tCount, null, cutOffset, r);
+				CutPoly (verts, tris, ref outVerts, ref outTris, out vCount, out tCount, null, cutOffset, r, CutMode.CutAll | CutMode.CutDual, 0);
 				
 				//Refine to remove bad triangles
 				DelaunayRefinement(outVerts, outTris, ref vCount, ref tCount, true, false, -cutOffset);

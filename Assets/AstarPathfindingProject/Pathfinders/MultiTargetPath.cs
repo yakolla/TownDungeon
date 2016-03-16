@@ -91,13 +91,13 @@ namespace Pathfinding {
 		 */
 		public MultiTargetPath () {}
 
-		public static MultiTargetPath Construct (Vector3[] startPoints, Vector3 target, OnPathDelegate[] callbackDelegates, OnPathDelegate callback = null) {
+		public static MultiTargetPath Construct (Vector3[] startPoints, Vector3 target, OnPathDelegate[] callbackDelegates, OnPathDelegate callback ) {
 			MultiTargetPath p = Construct (target, startPoints, callbackDelegates, callback);
 			p.inverted = true;
 			return p;
 		}
 
-		public static MultiTargetPath Construct (Vector3 start, Vector3[] targets, OnPathDelegate[] callbackDelegates, OnPathDelegate callback = null) {
+		public static MultiTargetPath Construct (Vector3 start, Vector3[] targets, OnPathDelegate[] callbackDelegates, OnPathDelegate callback) {
 			MultiTargetPath p = PathPool<MultiTargetPath>.GetPath ();
 			p.Setup (start,targets,callbackDelegates,callback);
 			return p;

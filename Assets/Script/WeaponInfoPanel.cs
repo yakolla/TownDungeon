@@ -17,13 +17,14 @@ public class WeaponInfoPanel : MonoBehaviour {
 		m_creatureStatsInfoPanel.Init();
 
 		m_inventoryPanel = transform.parent.GetComponentInChildren<InventoryPanel>();
-		m_inventoryPanel.Init();
 	}
 
 	void OnEnable()
 	{
 		m_activeCreature = GameObject.Find("Heros").GetComponentInChildren<Hero>();
 		m_creatureStatsInfoPanel.SetCreature(m_activeCreature);
+		
+		m_inventoryPanel.SetCreature(m_activeCreature);
 	}
 
 	public void OnClickButtonClose()

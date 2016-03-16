@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class AIBehaviorSearchEnemy : AIBehavior {
@@ -22,7 +22,7 @@ public class AIBehaviorSearchEnemy : AIBehavior {
 		{
 			target = m_creature.AIAgent.Target.GetComponent<Creature>();
 			if (target != null)
-				if (m_creature.StatsProp.GetValue(StatsProp.Type.SIGHT) < Vector3.Distance(m_creature.transform.position, target.transform.position))
+				if (m_creature.StatsProp.GetValue(StatsPropType.SIGHT) < Vector3.Distance(m_creature.transform.position, target.transform.position))
 				    target = null;
 		}
 

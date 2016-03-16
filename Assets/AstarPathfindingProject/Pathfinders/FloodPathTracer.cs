@@ -47,7 +47,7 @@ namespace Pathfinding
 		 */
 		public FloodPathTracer () {}
 
-		public static FloodPathTracer Construct (Vector3 start, FloodPath flood, OnPathDelegate callback = null) {
+		public static FloodPathTracer Construct (Vector3 start, FloodPath flood, OnPathDelegate callback) {
 			FloodPathTracer p = PathPool<FloodPathTracer>.GetPath ();
 			p.Setup (start, flood, callback);
 			return p;

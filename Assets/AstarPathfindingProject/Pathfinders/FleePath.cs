@@ -36,7 +36,7 @@ seeker.StartPath (path,MyCompleteFunction);
 		/** Constructs a new FleePath.
 		 * The FleePath will be taken from a pool.
 		 */
-		public static FleePath Construct (Vector3 start, Vector3 avoid, int searchLength, OnPathDelegate callback = null) {
+		public static FleePath Construct (Vector3 start, Vector3 avoid, int searchLength, OnPathDelegate callback ) {
 			FleePath p = PathPool<FleePath>.GetPath ();
 			p.Setup (start,avoid, searchLength, callback);
 			return p;

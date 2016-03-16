@@ -29,7 +29,7 @@ namespace Pathfinding {
 
 		public XPath () {}
 
-		public new static XPath Construct (Vector3 start, Vector3 end, OnPathDelegate callback = null) {
+		public new static XPath Construct (Vector3 start, Vector3 end, OnPathDelegate callback ) {
 			var p = PathPool<XPath>.GetPath ();
 			p.Setup (start,end,callback);
 			p.endingCondition = new ABPathEndingCondition (p);

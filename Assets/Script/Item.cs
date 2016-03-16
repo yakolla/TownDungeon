@@ -6,18 +6,26 @@ using UnityEngine.UI;
 public class Item {
 
 	[SerializeField]
-	Texture2D	m_icon;
+	int			m_refItemID;
 
 	[SerializeField]
-	StatsProp	m_property;
+	Texture2D	m_icon;
 
-	public void Init () {
+	StatsProp	m_statsProp = new StatsProp();
 
-		m_property.Init();
+	public Item (int refItemID) {
+
+		m_refItemID = refItemID;
+		m_statsProp.Init(RefDataMgr.Instance.RefItems[m_refItemID].stats);
 	}
 
 	public Texture2D Icon
 	{
 		get {return m_icon;}
+	}
+
+	public StatsProp StatsProp
+	{
+		get {return m_statsProp;}
 	}
 }

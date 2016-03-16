@@ -95,11 +95,11 @@ seeker.StartPath (path,MyCompleteFunction);
 		
 		public RandomPath () {}
 		
-		public RandomPath (Vector3 start, int length, OnPathDelegate callback = null) {
+		public RandomPath (Vector3 start, int length, OnPathDelegate callback ) {
 			throw new System.Exception ("This constructor is obsolete. Please use the pooling API and the Setup methods");
 		}
 		
-		public static RandomPath Construct (Vector3 start, int length, OnPathDelegate callback = null) {
+		public static RandomPath Construct (Vector3 start, int length, OnPathDelegate callback) {
 			RandomPath p = PathPool<RandomPath>.GetPath ();
 			p.Setup (start,length,callback);
 			return p;

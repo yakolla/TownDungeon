@@ -168,7 +168,7 @@ public class AIFollow : MonoBehaviour {
 		//seeker.StartPath (fpathTrace,OnPathComplete);
 		
 		Path p = ABPath.Construct(transform.position,target.position,null);
-		seeker.StartPath (p,OnPathComplete);
+		seeker.StartPath (p,OnPathComplete, -1);
 		//Start a new path from transform.positon to target.position, return the result to the function OnPathComplete
 		//seeker.StartPath (transform.position,target.position,OnPathComplete);
 	}

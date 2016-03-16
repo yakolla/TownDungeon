@@ -862,7 +862,7 @@ public class AstarPath : MonoBehaviour {
 	 * \see CallThreadSafeCallbacks
 	 */
 	private void Update () {
-		PerformBlockingActions();
+		PerformBlockingActions(false, true);
 
 		//Process paths
 		if (threadEnumerator != null) {
@@ -891,7 +891,7 @@ public class AstarPath : MonoBehaviour {
 		ReturnPaths(true);
 	}
 
-	private void PerformBlockingActions (bool force = false, bool unblockOnComplete = true) {
+	private void PerformBlockingActions (bool force /*= false*/, bool unblockOnComplete /*= true*/) {
 		if (pathQueue.AllReceiversBlocked) {
 			// Return all paths before starting blocking actions (these might change the graph and make returned paths invalid (at least the nodes))
 			ReturnPaths (false);
@@ -966,7 +966,7 @@ public class AstarPath : MonoBehaviour {
 #if UNITY_EDITOR
 		// If not playing, execute instantly
 		if (!Application.isPlaying) {
-			FlushWorkItems();
+			FlushWorkItems(true, false);
 		}
 #endif
 	}
@@ -1149,7 +1149,7 @@ public class AstarPath : MonoBehaviour {
 	 *
 	 * \see AddWorkItem
 	 */
-	public void FlushWorkItems ( bool unblockOnComplete = true, bool block = false ) {
+	public void FlushWorkItems ( bool unblockOnComplete /*= true*/, bool block /*= false*/ ) {
 		BlockUntilPathQueueBlocked();
 		//Run tasks
 		PerformBlockingActions(block, unblockOnComplete);
@@ -1375,7 +1375,7 @@ public class AstarPath : MonoBehaviour {
 		}
 
 		BlockUntilPathQueueBlocked();
-		PerformBlockingActions();
+		PerformBlockingActions(false, true);
 	}
 
 #if !PhotonImplementation && !AstarRelease
@@ -1525,7 +1525,7 @@ public class AstarPath : MonoBehaviour {
 #if !PhotonImplementation
 
 		// Flush work items, possibly added in initialize to load graph data
-		FlushWorkItems();
+		FlushWorkItems(true, false);
 
 		euclideanEmbedding.dirty = true;
 
@@ -2086,7 +2086,7 @@ Debug.Log ("Scanning... " + progress.description + " - " + (progress.progress*10
 		euclideanEmbedding.RecalculatePivots ();
 
 		//Perform any blocking actions and unblock (probably, some tasks might take a few frames)
-		PerformBlockingActions(true);
+		PerformBlockingActions(true, true);
 
 		lastScanTime = (float)(System.DateTime.UtcNow-startTime).TotalSeconds;
 
@@ -2159,7 +2159,7 @@ Debug.Log ("Scanning... " + progress.description + " - " + (progress.progress*10
 
 					//Wait for threads to calculate paths
 					Thread.Sleep(1);
-					active.PerformBlockingActions();
+					active.PerformBlockingActions(false, true);
 				}
 			} else {
 				while (p.GetState() < PathState.ReturnQueue) {
@@ -2170,7 +2170,7 @@ Debug.Log ("Scanning... " + progress.description + " - " + (progress.progress*10
 
 					//Calculate some paths
 					threadEnumerator.MoveNext ();
-					active.PerformBlockingActions();
+					active.PerformBlockingActions(false, true);
 				}
 			}
 		}
@@ -2268,7 +2268,7 @@ AstarPath.RegisterSafeUpdate (delegate () {
 	  * This can be useful if you have a path which you want to prioritize over all others. Be careful to not overuse it though.
 	  * If too many paths are put in the front of the queue often, this can lead to normal paths having to wait a very long time before being calculated.
 	  */
-	public static void StartPath (Path p, bool pushToFront = false) {
+	public static void StartPath (Path p, bool pushToFront /*= false*/) {
 
 		if (System.Object.ReferenceEquals (active, null)) {
 			Debug.LogError ("There is no AstarPath object in the scene");

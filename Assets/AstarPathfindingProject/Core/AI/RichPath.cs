@@ -211,7 +211,7 @@ namespace Pathfinding {
 					SimplifyPath2 (rcg, nodes, start, end, tmp, exactStart, exactEnd);
 					break;
 				case FunnelSimplification.RecursiveTrinary:
-					SimplifyPath3 (rcg, nodes, start, end, tmp, exactStart, exactEnd);
+					SimplifyPath3 (rcg, nodes, start, end, tmp, exactStart, exactEnd, -1);
 					break;
 				}
 
@@ -244,7 +244,7 @@ namespace Pathfinding {
 
 		}
 
-		public static void SimplifyPath3 (IRaycastableGraph rcg, List<GraphNode> nodes, int start, int end, List<GraphNode> result, Vector3 startPoint, Vector3 endPoint, int depth = 0) {
+		public static void SimplifyPath3 (IRaycastableGraph rcg, List<GraphNode> nodes, int start, int end, List<GraphNode> result, Vector3 startPoint, Vector3 endPoint, int depth) {
 
 			if (start == end) {
 				result.Add (nodes[start]);
@@ -281,7 +281,7 @@ namespace Pathfinding {
 				int mid2 = (maxDistNode+end)/2;
 
 				if (mid1 == mid2) {
-					SimplifyPath3 (rcg, nodes, start, mid1, result, startPoint, (Vector3)nodes[mid1].position);
+					SimplifyPath3 (rcg, nodes, start, mid1, result, startPoint, (Vector3)nodes[mid1].position, -1);
 					//Remove start node of next part so that it is not added twice
 					result.RemoveAt (result.Count-1);
 					SimplifyPath3 (rcg, nodes, mid1, end, result, (Vector3)nodes[mid1].position, endPoint, depth+1);

@@ -233,7 +233,7 @@ namespace Pathfinding {
 				GraphNode pivot = pivots[k];
 
 				FloodPath fp = null;
-				fp = FloodPath.Construct ( pivot );
+				fp = FloodPath.Construct ( pivot, null );
 				fp.immediateCallback = delegate ( Path _p ) {
 
 					// Handle path pooling

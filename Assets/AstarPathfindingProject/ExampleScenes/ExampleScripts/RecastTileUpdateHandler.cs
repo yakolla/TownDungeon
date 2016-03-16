@@ -138,7 +138,7 @@ public class RecastTileUpdateHandler : MonoBehaviour {
 				if ( dirtyTiles[z*graph.tileXCount + x] ) {
 					dirtyTiles[z*graph.tileXCount + x] = false;
 
-					var bounds = graph.GetTileBounds (x, z);
+					var bounds = graph.GetTileBounds (x, z, 1, 1);
 
 					// Shrink it a bit to make sure other tiles
 					// are not included because of rounding errors

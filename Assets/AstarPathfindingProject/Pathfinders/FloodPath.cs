@@ -78,13 +78,13 @@ The easiest is to just modify the instance of PathIDConstraint which is created 
 		 */
 		public FloodPath () {}
 
-		public static FloodPath Construct (Vector3 start, OnPathDelegate callback = null) {
+		public static FloodPath Construct (Vector3 start, OnPathDelegate callback) {
 			FloodPath p = PathPool<FloodPath>.GetPath ();
 			p.Setup (start, callback);
 			return p;
 		}
 
-		public static FloodPath Construct (GraphNode start, OnPathDelegate callback = null) {
+		public static FloodPath Construct (GraphNode start, OnPathDelegate callback) {
 			if ( start == null ) throw new ArgumentNullException ("start");
 
 			FloodPath p = PathPool<FloodPath>.GetPath ();

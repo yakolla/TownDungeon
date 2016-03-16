@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class AIBehaviorSearchSurroundingArea : AIBehavior {
@@ -15,7 +15,7 @@ public class AIBehaviorSearchSurroundingArea : AIBehavior {
 	public override void Start()
 	{
 
-		float sight = m_creature.StatsProp.GetValue(StatsProp.Type.SIGHT);
+		float sight = m_creature.StatsProp.GetValue(StatsPropType.SIGHT);
 		float x = Random.Range(-sight, sight)+m_creature.transform.position.x;
 		float z = Random.Range(-sight, sight)+m_creature.transform.position.z;
 		m_creature.AIAgent.TargetPos = new Vector3(Mathf.Clamp(x, m_area.xMin, m_area.width), 0, Mathf.Clamp(z, m_area.yMin, m_area.height));

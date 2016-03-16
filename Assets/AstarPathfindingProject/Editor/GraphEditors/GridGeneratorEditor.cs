@@ -505,7 +505,7 @@ namespace Pathfinding {
 				if (path != "") {
 					var importer = AssetImporter.GetAtPath (path) as TextureImporter;
 					if (!importer.isReadable) {
-						if (FixLabel ("Texture is not readable")) {
+						if (FixLabel ("Texture is not readable", "Fix", 40)) {
 							importer.isReadable = true;
 							EditorUtility.SetDirty (importer);
 							AssetDatabase.ImportAsset (path);

@@ -7,6 +7,9 @@ public abstract class Creature : MonoBehaviour {
 	[SerializeField]
 	string m_creatureName;
 
+	[SerializeField]
+	int					m_refCreatureID;
+
 	AIAgent				m_aiAgent = null;
 	AIPath				m_aiPath = null;
 	[SerializeField]
@@ -27,7 +30,7 @@ public abstract class Creature : MonoBehaviour {
 
 	public void Start () {
 
-		m_statsProp.Init();
+		m_statsProp.Init(RefDataMgr.Instance.RefCreatures[m_refCreatureID].stats);
 
 		m_aiPath = GetComponent<AIPath>();
 		m_animator = GetComponentInChildren<Animator>();
@@ -74,7 +77,7 @@ public abstract class Creature : MonoBehaviour {
 
 		if (attacker != null)
 		{
-			attacker.GiveXP((int)StatsProp.GetValue(StatsProp.Type.DEATH_XP));
+			attacker.GiveXP((int)StatsProp.GetValue(StatsPropType.DEATH_XP));
 			for (int i = 0; i < ItemInventory.Items.Count; ++i)
 				attacker.ItemInventory.Items.Add(ItemInventory.Items[i]);
 		}
@@ -117,12 +120,12 @@ public abstract class Creature : MonoBehaviour {
 
 	public void OnFight(Creature attacker)
 	{
-		int dmg = (int)attacker.StatsProp.GetValue(StatsProp.Type.STR);
+		int dmg = (int)attacker.StatsProp.GetValue(StatsPropType.STR);
 		AIAgent.Attacker = attacker;
 		AIAgent.AiBehaviorRestart = true;
 
 		StatsProp.HP -= dmg;
-		m_hpBox.Amount("-"+dmg, StatsProp.HP/StatsProp.GetValue(StatsProp.Type.MAX_HP));
+		m_hpBox.Amount("-"+dmg, StatsProp.HP/StatsProp.GetValue(StatsPropType.MAX_HP));
 
 		if (IsDeath)
 		{
@@ -139,7 +142,7 @@ public abstract class Creature : MonoBehaviour {
 	public void GiveXP(int xp)
 	{
 		int lv = StatsProp.Level;
-		StatsProp.SetValue(StatsProp.Type.XP, StatsProp.GetValue(StatsProp.Type.XP) + xp );
+		StatsProp.SetValue(StatsPropType.XP, StatsProp.GetValue(StatsPropType.XP) + xp );
 
 		// levelup
 		if (lv < StatsProp.Level)
@@ -150,7 +153,7 @@ public abstract class Creature : MonoBehaviour {
 		}
 		else
 		{
-			int lvBaseXP = (int)StatsProp.GetValue(StatsProp.Type.XP)-(StatsProp.Level-1)*Helper.XPBlock;
+			int lvBaseXP = (int)StatsProp.GetValue(StatsPropType.XP)-(StatsProp.Level-1)*Helper.XPBlock;
 			m_xpBox.Amount("+"+xp, lvBaseXP/(float)Helper.XPBlock);
 		}
 

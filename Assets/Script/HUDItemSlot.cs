@@ -13,28 +13,30 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	float 	m_scaleDown = 0.2f;
 	InventoryPanel	m_inventory;
 	GuageBox	m_xpGuageBox;
-	int	m_xp;
-	int m_maxXP;
+	Button		m_buttonUpgrade;
+	Item m_item;
 
 	void Awake()
 	{
 		m_xpGuageBox = GetComponentInChildren<GuageBox>();
 		m_itemIcon = transform.Find("ImageIcon").GetComponent<Image>();
+		m_buttonUpgrade = transform.Find("ImageIcon/ButtonUpgrade").GetComponent<Button>();
 		m_selectedImage = transform.Find("ImageSelected").GetComponent<Image>();
 		m_initScale = m_itemIcon.transform.localScale;
 		m_goalScale = m_initScale;
-		m_maxXP = 4;
 	}
 
-	public void Init(InventoryPanel	inventoryPanel)
+	public void Init(InventoryPanel	inventoryPanel, Item item)
 	{
 		m_inventory = inventoryPanel;
+		m_itemIcon.sprite = Sprite.Create(item.Icon, new Rect(0, 0, item.Icon.width, item.Icon.height), new Vector2(.5f,.5f));
+		m_xpGuageBox.Amount(item.StatsProp.GetValue(StatsPropType.XP) + "/" + item.StatsProp.MaxXP, item.StatsProp.GetValue(StatsPropType.XP)/item.StatsProp.MaxXP);
+		m_item = item;
+
 	}
 
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		m_xp++;
-		m_xpGuageBox.Amount(m_xp + "/" + m_maxXP, m_xp/(float)m_maxXP);
 		if (!m_selected == true)
 			OnPressed();
 		else
@@ -78,6 +80,17 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	void Update()
 	{
 		m_itemIcon.transform.localScale = Vector3.Lerp(m_itemIcon.transform.localScale, m_goalScale, Time.deltaTime);
+
+		if (m_item.StatsProp.GetValue(StatsPropType.XP) >= m_item.StatsProp.MaxXP)
+		{
+			m_buttonUpgrade.enabled = true;
+			m_xpGuageBox.enabled = false;
+		}
+		else
+		{
+			m_buttonUpgrade.enabled = false;
+			m_xpGuageBox.enabled = true;
+		}
 	}
 
 }

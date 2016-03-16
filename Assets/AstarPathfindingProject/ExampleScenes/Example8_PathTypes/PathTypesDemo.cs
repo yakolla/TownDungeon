@@ -414,14 +414,14 @@ public class PathTypesDemo : MonoBehaviour {
 		}
 		
 		if (p != null) {
-			AstarPath.StartPath (p);
+			AstarPath.StartPath (p, false);
 			lastPath = p;
 		}
 	}
 	
 	public IEnumerator CalculateConstantPath () {
 		ConstantPath constPath = ConstantPath.Construct (end.position, searchLength, OnPathComplete);
-		AstarPath.StartPath (constPath);
+		AstarPath.StartPath (constPath, false);
 		lastPath = constPath;
 		yield return constPath.WaitForPath();
 	}

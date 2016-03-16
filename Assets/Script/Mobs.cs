@@ -22,7 +22,7 @@ public class Mobs : MonoBehaviour {
 	Rect		m_rtArea;
 	// Use this for initialization
 	void Start () {
-		Application.runInBackground = true;
+
 		StartCoroutine(LoopSpawn());
 		m_rtArea = new Rect((m_area.position.x-m_area.localScale.x/2), (m_area.position.z-m_area.localScale.z/2), m_area.localScale.x/2, m_area.localScale.z/2);
 	}	

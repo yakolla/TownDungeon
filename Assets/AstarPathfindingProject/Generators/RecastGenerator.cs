@@ -420,7 +420,7 @@ But this time, edit the setting named "Forward" to "Z forward" (not -Z as it is 
 		/** Returns an XZ bounds object with the bounds of a group of tiles.
 		  * The bounds object is defined in world units.
 		  */
-		public Bounds GetTileBounds (int x, int z, int width=1, int depth=1) {
+		public Bounds GetTileBounds (int x, int z, int width /*=1*/, int depth/*=1*/) {
 			var b = new Bounds ();
 			b.SetMinMax (
 				new Vector3(x*tileSizeX*cellSize , 0                  , z*tileSizeZ*cellSize ) + forcedBounds.min,

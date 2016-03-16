@@ -419,7 +419,7 @@ public class Seeker : MonoBehaviour, ISerializationCallbackReceiver {
 	 * \a callback will be called when the path has completed.
 	 * \a Callback will not be called if the path is canceled (e.g when a new path is requested before the previous one has completed)
 	 */
-	public Path StartPath (Path p, OnPathDelegate callback = null, int graphMask = -1) {
+	public Path StartPath (Path p, OnPathDelegate callback, int graphMask /*= -1*/) {
 		p.enabledTags = traversableTags;
 		p.tagPenalties = tagPenalties;
 
@@ -454,7 +454,7 @@ public class Seeker : MonoBehaviour, ISerializationCallbackReceiver {
 		RunModifiers (ModifierPass.PreProcess, path);
 
 		// Send the request to the pathfinder
-		AstarPath.StartPath (path);
+		AstarPath.StartPath (path, false);
 
 		return path;
 	}
@@ -473,7 +473,7 @@ public class Seeker : MonoBehaviour, ISerializationCallbackReceiver {
 	 * \see Pathfinding.MultiTargetPath
 	 * \see \ref MultiTargetPathExample.cs "Example of how to use multi-target-paths"
 	 */
-	public MultiTargetPath StartMultiTargetPath (Vector3 start, Vector3[] endPoints, bool pathsForAll, OnPathDelegate callback = null, int graphMask = -1) {
+	public MultiTargetPath StartMultiTargetPath (Vector3 start, Vector3[] endPoints, bool pathsForAll, OnPathDelegate callback, int graphMask) {
 		MultiTargetPath p = MultiTargetPath.Construct (start, endPoints, null, null);
 		p.pathsForAll = pathsForAll;
 		return StartMultiTargetPath (p, callback, graphMask);
@@ -493,7 +493,7 @@ public class Seeker : MonoBehaviour, ISerializationCallbackReceiver {
 	 * \see Pathfinding.MultiTargetPath
 	 * \see \ref MultiTargetPathExample.cs "Example of how to use multi-target-paths"
 	 */
-	public MultiTargetPath StartMultiTargetPath (Vector3[] startPoints, Vector3 end, bool pathsForAll, OnPathDelegate callback = null, int graphMask = -1) {
+	public MultiTargetPath StartMultiTargetPath (Vector3[] startPoints, Vector3 end, bool pathsForAll, OnPathDelegate callback, int graphMask) {
 		MultiTargetPath p = MultiTargetPath.Construct (startPoints, end, null, null);
 		p.pathsForAll = pathsForAll;
 		return StartMultiTargetPath (p, callback, graphMask);
@@ -511,7 +511,7 @@ public class Seeker : MonoBehaviour, ISerializationCallbackReceiver {
 	 * \see Pathfinding.MultiTargetPath
 	 * \see \ref MultiTargetPathExample.cs "Example of how to use multi-target-paths"
 	 */
-	public MultiTargetPath StartMultiTargetPath (MultiTargetPath p, OnPathDelegate callback = null, int graphMask = -1) {
+	public MultiTargetPath StartMultiTargetPath (MultiTargetPath p, OnPathDelegate callback, int graphMask) {
 
 		// Cancel a previously requested path is it has not been processed yet and also make sure that it has not been recycled and used somewhere else
 		if (path != null && path.GetState () <= PathState.Processing && lastPathID == path.pathID) {
@@ -541,7 +541,7 @@ public class Seeker : MonoBehaviour, ISerializationCallbackReceiver {
 		RunModifiers (ModifierPass.PreProcess, path);
 
 		// Send the request to the pathfinder
-		AstarPath.StartPath (path);
+		AstarPath.StartPath (path, false);
 
 		return p;
 	}

@@ -47,7 +47,7 @@ namespace Pathfinding {
 						var urh = go.GetComponent<UnityReferenceHelper> ();
 						if (urh == null) {
 
-							if (FixLabel ("Object's GameObject must have a UnityReferenceHelper component attached")) {
+							if (FixLabel ("Object's GameObject must have a UnityReferenceHelper component attached", "Fix", 40)) {
 								go.AddComponent<UnityReferenceHelper>();
 							}
 						}
@@ -61,7 +61,7 @@ namespace Pathfinding {
 
 
 					if (!rg.IsMatch(path)) {
-						if (FixLabel ("Object must be in the 'Resources' folder, top level")) {
+						if (FixLabel ("Object must be in the 'Resources' folder, top level", "Fix", 40)) {
 							if (!System.IO.Directory.Exists (Application.dataPath+"/Resources")) {
 								System.IO.Directory.CreateDirectory (Application.dataPath+"/Resources");
 								AssetDatabase.Refresh ();
@@ -80,7 +80,7 @@ namespace Pathfinding {
 					}
 
 					if (!AssetDatabase.IsMainAsset (obj) && obj.name != AssetDatabase.LoadMainAssetAtPath (path).name) {
-						if (FixLabel ("Due to technical reasons, the main asset must\nhave the same name as the referenced asset")) {
+						if (FixLabel ("Due to technical reasons, the main asset must\nhave the same name as the referenced asset", "Fix", 40)) {
 							string error = AssetDatabase.RenameAsset (path,obj.name);
 							if (error == "") {
 								//Debug.Log ("Successful");
@@ -129,7 +129,7 @@ namespace Pathfinding {
 		}
 
 		/** Draws a small help box with a 'Fix' button to the right. \returns Boolean - Returns true if the button was clicked */
-		public bool FixLabel (string label, string buttonLabel = "Fix", int buttonWidth = 40) {
+		public bool FixLabel (string label, string buttonLabel /*= "Fix"*/, int buttonWidth /*= 40*/) {
 			bool returnValue = false;
 			GUILayout.BeginHorizontal ();
 			GUILayout.Space (14*EditorGUI.indentLevel);

@@ -280,11 +280,11 @@ namespace Pathfinding.RVO.Sampled {
 			Debug.DrawRay ( To3D(p2), To3D(p2t).normalized*100, Color.black );
 		}
 
-		static void DrawCross ( Vector2 p, float size = 1 ) {
+		static void DrawCross ( Vector2 p, float size /*= 1*/ ) {
 			DrawCross ( p, Color.white, size );
 		}
 
-		static void DrawCross ( Vector2 p, Color col, float size = 1 ) {
+		static void DrawCross ( Vector2 p, Color col, float size /*= 1*/ ) {
 			size *= 0.5f;
 			Debug.DrawLine ( new Vector3(p.x,0,p.y) - Vector3.right*size, new Vector3(p.x,0,p.y) + Vector3.right*size, col );
 			Debug.DrawLine ( new Vector3(p.x,0,p.y) - Vector3.forward*size, new Vector3(p.x,0,p.y) + Vector3.forward*size, col );
@@ -944,7 +944,7 @@ namespace Pathfinding.RVO.Sampled {
 			}
 
 
-			if (DebugDraw) DrawCross (result+position2D);
+			if (DebugDraw) DrawCross (result+position2D, 1);
 
 
 			newVelocity = To3D(Vector2.ClampMagnitude (result, maxSpeed));

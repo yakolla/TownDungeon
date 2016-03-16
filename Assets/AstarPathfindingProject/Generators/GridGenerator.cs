@@ -446,7 +446,7 @@ AstarPath.active.Scan();
 		 * The same thing happens for other - less extreme - values as well, but to a lesser degree.
 		 *
 		 */
-		public void RelocateNodes (Vector3 center, Quaternion rotation, float nodeSize, float aspectRatio = 1, float isometricAngle = 0) {
+		public void RelocateNodes (Vector3 center, Quaternion rotation, float nodeSize, float aspectRatio /*= 1*/, float isometricAngle /*= 0*/) {
 			var omatrix = matrix;
 			this.center = center;
 			this.rotation = rotation.eulerAngles;
@@ -928,7 +928,7 @@ AstarPath.active.Scan();
 
 					// Updates the position of the node
 					// and a bunch of other things
-					UpdateNodePositionCollision (node,x,z);
+					UpdateNodePositionCollision (node,x,z, true);
 
 					// Apply texture data if necessary
 					textureData.Apply (node,x,z);
@@ -952,7 +952,7 @@ AstarPath.active.Scan();
 
 		/** Updates position, walkability and penalty for the node.
 		 * Assumes that collision.Initialize (...) has been called before this function */
-		public virtual void UpdateNodePositionCollision (GridNode node, int x, int z, bool resetPenalty = true) {
+		public virtual void UpdateNodePositionCollision (GridNode node, int x, int z, bool resetPenalty /*= true*/) {
 
 			// Set the node's initial position with a y-offset of zero
 			node.position = GraphPointToWorld (x, z, 0);
