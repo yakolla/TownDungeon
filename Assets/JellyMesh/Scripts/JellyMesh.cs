@@ -220,17 +220,17 @@ public class JellyMesh : MonoBehaviour
 			{ 
 				if(m_RigidBody2D != null)
 				{
-					if(m_RigidBody2D.collider2D)
+					if(m_RigidBody2D.GetComponent<Collider2D>())
 					{
-						CircleCollider2D circleCollider = m_RigidBody2D.collider2D as CircleCollider2D;
+						CircleCollider2D circleCollider = m_RigidBody2D.GetComponent<Collider2D>() as CircleCollider2D;
 						return circleCollider.radius;
 					}
 				}
 				else if(m_RigidBody3D != null)
 				{
-					if(m_RigidBody3D.collider)
+					if(m_RigidBody3D.GetComponent<Collider>())
 					{
-						SphereCollider circleCollider = m_RigidBody3D.collider as SphereCollider;
+						SphereCollider circleCollider = m_RigidBody3D.GetComponent<Collider>() as SphereCollider;
 						return circleCollider.radius;
 					}
 				}
@@ -908,7 +908,7 @@ public class JellyMesh : MonoBehaviour
 			joint.connectedAnchor = point1.Body2D.transform.localPosition - point2.Body2D.transform.localPosition;
 			joint.distance = 0.0f;
 			
-			joint.collideConnected = m_CollideConnected;
+			joint.enableCollision = m_CollideConnected;
 			joint.frequency = m_Stiffness;
 			joint.dampingRatio = m_DampingRatio;
 		}
@@ -1053,9 +1053,9 @@ public class JellyMesh : MonoBehaviour
 						{
 							if(referencePointIndex != comparisonPointIndex)
 							{
-								if(m_ReferencePoints[referencePointIndex].Body3D.collider && m_ReferencePoints[comparisonPointIndex].Body3D.collider)
+								if(m_ReferencePoints[referencePointIndex].Body3D.GetComponent<Collider>() && m_ReferencePoints[comparisonPointIndex].Body3D.GetComponent<Collider>())
 								{
-									Physics.IgnoreCollision(m_ReferencePoints[referencePointIndex].Body3D.collider, m_ReferencePoints[comparisonPointIndex].Body3D.collider);
+									Physics.IgnoreCollision(m_ReferencePoints[referencePointIndex].Body3D.GetComponent<Collider>(), m_ReferencePoints[comparisonPointIndex].Body3D.GetComponent<Collider>());
 								}
 							}
 						}
@@ -1077,7 +1077,7 @@ public class JellyMesh : MonoBehaviour
 			m_Colors = new Color[m_SourceMesh.colors.Length];
 			m_TexCoords = new Vector2[m_SourceMesh.uv.Length];
 			m_Triangles = new int[m_SourceMesh.triangles.Length];
-			m_UV1 = new Vector2[m_SourceMesh.uv1.Length];
+			m_UV1 = new Vector2[m_SourceMesh.uv2.Length];
 			m_UV2 = new Vector2[m_SourceMesh.uv2.Length];
 			m_Normals = new Vector3[m_SourceMesh.normals.Length];
 
@@ -1085,7 +1085,7 @@ public class JellyMesh : MonoBehaviour
 			m_SourceMesh.vertices.CopyTo(m_InitialVertexPositions, 0);
 			m_SourceMesh.colors.CopyTo(m_Colors, 0);
 			m_SourceMesh.uv.CopyTo(m_TexCoords, 0);
-			m_SourceMesh.uv1.CopyTo(m_UV1, 0);
+			m_SourceMesh.uv2.CopyTo(m_UV1, 0);
 			m_SourceMesh.uv2.CopyTo(m_UV2, 0);
 			m_SourceMesh.triangles.CopyTo(m_Triangles, 0);
 			m_SourceMesh.normals.CopyTo(m_Normals, 0);
@@ -1186,9 +1186,9 @@ public class JellyMesh : MonoBehaviour
 			{
 				if(referencePoint.Body3D)
 				{
-					if(referencePoint.Body3D.collider)
+					if(referencePoint.Body3D.GetComponent<Collider>())
 					{
-						SphereCollider sphereCollider = referencePoint.Body3D.collider as SphereCollider;
+						SphereCollider sphereCollider = referencePoint.Body3D.GetComponent<Collider>() as SphereCollider;
 						
 						if(Physics.CheckSphere(sphereCollider.bounds.center + new Vector3(0, -sphereCollider.radius * 0.1f, 0), sphereCollider.radius, groundLayer))
 						{
@@ -1203,9 +1203,9 @@ public class JellyMesh : MonoBehaviour
 				}
 				else if(referencePoint.Body2D)
 				{		
-					if(referencePoint.Body2D.collider2D)
+					if(referencePoint.Body2D.GetComponent<Collider2D>())
 					{
-						CircleCollider2D circleCollider = referencePoint.Body2D.collider2D as CircleCollider2D;
+						CircleCollider2D circleCollider = referencePoint.Body2D.GetComponent<Collider2D>() as CircleCollider2D;
 						Vector2 bodyPosition = referencePoint.GameObject.transform.position;
 						
 						if(Physics2D.OverlapCircle(bodyPosition + new Vector2(0, -circleCollider.radius * 0.1f), circleCollider.radius, groundLayer))
@@ -1419,7 +1419,7 @@ public class JellyMesh : MonoBehaviour
 		m_Mesh.Clear();
 		m_Mesh.vertices = m_Vertices;
 		m_Mesh.uv = m_TexCoords;
-		m_Mesh.uv1 = m_UV1;
+		m_Mesh.uv2 = m_UV1;
 		m_Mesh.uv2 = m_UV2;
 		m_Mesh.triangles = m_Triangles;
 		m_Mesh.colors = m_Colors;
