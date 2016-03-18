@@ -2,23 +2,39 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Newtonsoft.Json.Converters;
 
-[System.Serializable]
 public class ItemInventory {
 
-	[SerializeField]
-	List<Item>	m_equipItems;
+    public void Init()
+    {
+        foreach(var entry in EquipItems)
+        {
+            entry.Value.Init();
+        }
 
-	[SerializeField]
-	List<Item>	m_items;
+        foreach (var entry in Items)
+        {
+            entry.Value.Init();
+        }
+    }
 
-	public List<Item> Items
+	public Dictionary<int, Item> Items
 	{
-		get {return m_items;}
+		get; set;
 	}
 
-	public List<Item> EquipItems
+
+	public Dictionary<int, Item> EquipItems
 	{
-		get {return m_equipItems;}
+		get; set;
+	}
+
+	public void PutOnBag(Item item)
+	{
+		if (Items.ContainsKey(item.RefItemID))
+			Items[item.RefItemID].Stats.SetValue(StatsPropType.XP, Items[item.RefItemID].Stats.GetValue(StatsPropType.XP) + item.Stats.GetValue(StatsPropType.XP));
+		else
+			Items.Add(item.RefItemID, item);
 	}
 }

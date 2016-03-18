@@ -30,7 +30,7 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	{
 		m_inventory = inventoryPanel;
 		m_itemIcon.sprite = Sprite.Create(item.Icon, new Rect(0, 0, item.Icon.width, item.Icon.height), new Vector2(.5f,.5f));
-		m_xpGuageBox.Amount(item.StatsProp.GetValue(StatsPropType.XP) + "/" + item.StatsProp.MaxXP, item.StatsProp.GetValue(StatsPropType.XP)/item.StatsProp.MaxXP);
+		m_xpGuageBox.Amount(item.Stats.GetValue(StatsPropType.XP) + "/" + item.Stats.MaxXP, item.Stats.GetValue(StatsPropType.XP)/item.Stats.MaxXP);
 		m_item = item;
 
 	}
@@ -81,7 +81,7 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	{
 		m_itemIcon.transform.localScale = Vector3.Lerp(m_itemIcon.transform.localScale, m_goalScale, Time.deltaTime);
 
-		if (m_item.StatsProp.GetValue(StatsPropType.XP) >= m_item.StatsProp.MaxXP)
+		if (m_item.Stats.GetValue(StatsPropType.XP) >= m_item.Stats.MaxXP)
 		{
 			m_buttonUpgrade.enabled = true;
 			m_xpGuageBox.enabled = false;

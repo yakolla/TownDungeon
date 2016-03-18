@@ -29,7 +29,7 @@ public class AIAgent {
 			m_aiBehaviorRestart = false;
 		}
 
-		switch(m_aiBehavior.Update())
+        switch (m_aiBehavior.Update())
 		{
 		case AIBehaviorResultType.SUCCESS:
 			break;

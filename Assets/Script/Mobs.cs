@@ -1,18 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Mobs : MonoBehaviour {
-
-	[SerializeField]
-	GameObject	m_mobPref;
-	[SerializeField]
-	GameObject	m_canvasPref;
-
-	[SerializeField]
-	string[] m_prefabSkinNames;
-
-	[SerializeField]
-	string m_rootPath;
+public class Mobs : Creatures
+{
 
 	[SerializeField]
 	float	m_spawnTime = 10f;
@@ -23,27 +14,25 @@ public class Mobs : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		StartCoroutine(LoopSpawn());
-		m_rtArea = new Rect((m_area.position.x-m_area.localScale.x/2), (m_area.position.z-m_area.localScale.z/2), m_area.localScale.x/2, m_area.localScale.z/2);
+        m_rtArea = new Rect((m_area.position.x - m_area.localScale.x / 2f), (m_area.position.z - m_area.localScale.z / 2f), m_area.localScale.x / 2f, m_area.localScale.z / 2f);
+        StartCoroutine(LoopSpawn());
+		
 	}	
 
 	IEnumerator LoopSpawn()
 	{
-		while(true)
+        List<int> keyList = new List<int>(RefDataMgr.Instance.RefCreatures.Keys);
+
+        while (true)
 		{
-			GameObject obj = Instantiate(m_mobPref) as GameObject;
 
-			GameObject skinObj = Instantiate(Resources.Load(m_rootPath + m_prefabSkinNames[Random.Range(0, m_prefabSkinNames.Length)])) as GameObject;
-			skinObj.transform.parent = obj.transform;
-			skinObj.transform.name = "Skin";
-
-			GameObject canvasObj = Instantiate(m_canvasPref) as GameObject;
-			canvasObj.transform.parent = obj.transform;
-			canvasObj.transform.name = "Canvas";
-
-			obj.transform.parent = transform;
-			obj.transform.position = new Vector3(Random.Range(m_rtArea.xMin, m_rtArea.width), 0, Random.Range(m_rtArea.yMin, m_rtArea.height));
-			yield return new WaitForSeconds(m_spawnTime);
+            RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(0, keyList.Count)]];
+            CreatureSerializeFileds fileds = new CreatureSerializeFileds();
+            fileds.RefCreatureID = randRefCreature.id;
+            fileds.Stats = new StatsProp();
+            fileds.Stats.Init(randRefCreature.Stats);
+            Spawn(fileds, new Vector3(Random.Range(m_rtArea.xMin, m_rtArea.width), 0, Random.Range(m_rtArea.yMin, m_rtArea.height)));
+            yield return new WaitForSeconds(m_spawnTime);
 		}
 
 	}

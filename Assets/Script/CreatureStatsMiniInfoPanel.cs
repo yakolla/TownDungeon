@@ -46,15 +46,22 @@ public class CreatureStatsMiniInfoPanel : MonoBehaviour {
 		m_imageIcon.sprite = Helper.Photo(creature.gameObject);
 		m_textName.text = creature.CreatureName;
 
-		for (int i = 0; i < m_equipItems.Count; ++i)
+        int i = 0;
+        for (i = 0; i < m_equipItems.Count; ++i)
 		{
 			m_equipItems[i].texture = null;
 		}
 
-		for (int i = 0; i < Mathf.Min(creature.ItemInventory.EquipItems.Count, m_equipItems.Count); ++i)
-		{
-			m_equipItems[i].texture = creature.ItemInventory.EquipItems[i].Icon;
-		}
+        if (creature.ItemInventory != null)
+        {
+            i = 0;
+            foreach (var entry in creature.ItemInventory.EquipItems)
+            {
+                m_equipItems[i].texture = entry.Value.Icon;
+                ++i;
+            }
+        }
+        
 
 	}
 

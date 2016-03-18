@@ -31,56 +31,35 @@ public class InventoryPanel : MonoBehaviour{
 	public void SetCreature(Creature creature)
 	{
 		m_creature = creature;
-		initEquipItems();
-		initBagItems();
+		initEquipItems(transform.Find("ImageEquipItems"), m_creature.ItemInventory.EquipItems, m_equipItems);
+        initEquipItems(transform.Find("ImageBag/ItemScrollView/Contents"), m_creature.ItemInventory.Items, m_bagItems);
+        
 	}
 
-	void initEquipItems()
+	void initEquipItems(Transform equipItems, Dictionary<int, Item> items, List<HUDItemSlot> container)
 	{
-		Transform equipItems = transform.Find("ImageEquipItems");
-
 		GameObject prefItemSlot = Resources.Load("Pref/HUD/HudItemSlot") as GameObject;
 		RectTransform rtItemSlot = prefItemSlot.GetComponent<RectTransform>();
 		RectTransform rtPivot = equipItems.Find("Pivot").GetComponent<RectTransform>();
 		float startX = rtPivot.transform.localPosition.x;
 		float startY = rtPivot.transform.localPosition.y;
-		for (int i = 0; i < m_creature.ItemInventory.EquipItems.Count; ++i)
+
+        int i = 0;
+        foreach ( var entry in items)
 		{
 			HUDItemSlot itemSlotObj = (Instantiate(prefItemSlot) as GameObject).GetComponent<HUDItemSlot>();
-			itemSlotObj.Init(this, m_creature.ItemInventory.EquipItems[i]);
+			itemSlotObj.Init(this, entry.Value);
 			
-			itemSlotObj.transform.parent = equipItems;
-			itemSlotObj.transform.localPosition = new Vector3(startX+rtItemSlot.rect.width*i, startY, 0);
+			itemSlotObj.transform.SetParent(equipItems);
+			itemSlotObj.transform.localPosition = new Vector3(startX + rtItemSlot.rect.width * (i % Helper.ItemCols), startY - rtPivot.rect.height * (i / Helper.ItemCols), 0);
 			itemSlotObj.transform.localScale = prefItemSlot.transform.localScale;
 
-			m_equipItems.Add(itemSlotObj);
+            container.Add(itemSlotObj);
+            ++i;
 		}
 
 
-	}
-
-	void initBagItems()
-	{
-		Transform equipItems = transform.Find("ImageBag/ItemScrollView/Contents");
-		
-		GameObject prefItemSlot = Resources.Load("Pref/HUD/HudItemSlot") as GameObject;
-		RectTransform rtItemSlot = prefItemSlot.GetComponent<RectTransform>();
-		RectTransform rtPivot = equipItems.Find("Pivot").GetComponent<RectTransform>();
-		float startX = rtPivot.transform.localPosition.x;
-		float startY = rtPivot.transform.localPosition.y;
-		for (int i = 0; i < m_creature.ItemInventory.Items.Count; ++i)
-		{
-			HUDItemSlot itemSlotObj = (Instantiate(prefItemSlot) as GameObject).GetComponent<HUDItemSlot>();
-			itemSlotObj.Init(this, m_creature.ItemInventory.Items[i]);
-			
-			itemSlotObj.transform.parent = equipItems;
-			itemSlotObj.transform.localPosition = new Vector3(startX+rtItemSlot.rect.width*(i%Helper.ItemCols), startY-rtPivot.rect.height*(i/Helper.ItemCols), 0);
-			itemSlotObj.transform.localScale = prefItemSlot.transform.localScale;
-
-			m_bagItems.Add(itemSlotObj);
-		}
-		
-	}
+	}    
 
 	public HUDItemSlot SelectedItemSlot
 	{

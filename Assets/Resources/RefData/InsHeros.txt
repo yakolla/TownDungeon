@@ -1,25 +1,10 @@
 {
 	1:{
-		"id":1,
+		"RefCreatureID":1,
 		"Stats":{
-			"STR":1,
-			"MAX_HP":40,
-			"ATK_RANGE":4,
-			"ATK_SPEED":2,
-			"SIGHT":5
-			
-		}
-	},
-	2:{
-		"id":2,
-		"Stats":{
-			"STR":1,
-			"MAX_HP":4,
-			"ATK_RANGE":4,
-			"ATK_SPEED":1,
-			"SIGHT":5,
-			"DEATH_XP":1
-			
+			"Props":{
+				
+			}
 		},
 		"ItemInventory":{
 			"EquipItems":{
@@ -27,7 +12,6 @@
 					"RefItemID":1,
 					"Stats":{
 						"Props":{
-							"STR":1,
 							"XP":1							
 						}
 					}
@@ -38,12 +22,12 @@
 					"RefItemID":2,
 					"Stats":{
 						"Props":{
-							"STR":1,
 							"XP":1							
 						}
 					}
 				}
 			}
 		}
+
 	}
 }

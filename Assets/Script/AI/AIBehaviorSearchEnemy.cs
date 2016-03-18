@@ -28,7 +28,7 @@ public class AIBehaviorSearchEnemy : AIBehavior {
 
 		if (target == null)
 		{
-			Collider[] colls = Physics.OverlapSphere(m_creature.transform.position, float.PositiveInfinity, m_creature.LayerMaskForEnemy);
+			Collider[] colls = Physics.OverlapSphere(m_creature.transform.position, Helper.MapArea.width, m_creature.LayerMaskForEnemy);
 			if (colls.Length == 0)
 				return AIBehaviorResultType.FAIL; 
 

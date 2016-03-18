@@ -5,27 +5,29 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Item {
 
-	[SerializeField]
-	int			m_refItemID;
 
 	[SerializeField]
-	Texture2D	m_icon;
+	Texture2D	m_icon = null;
 
-	StatsProp	m_statsProp = new StatsProp();
-
-	public Item (int refItemID) {
-
-		m_refItemID = refItemID;
-		m_statsProp.Init(RefDataMgr.Instance.RefItems[m_refItemID].stats);
-	}
+    public void Init()
+    {
+        RefItem refItem = RefDataMgr.Instance.RefItems[RefItemID];
+        Stats.Init(refItem.Stats);
+        m_icon = Resources.Load<Texture2D>("Sprites/"+refItem.iconName);
+    }
 
 	public Texture2D Icon
 	{
 		get {return m_icon;}
 	}
 
-	public StatsProp StatsProp
+	public StatsProp Stats
 	{
-		get {return m_statsProp;}
+		get; set;
+	}
+
+	public int RefItemID
+	{
+		get; set;
 	}
 }

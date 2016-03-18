@@ -1,24 +1,20 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public abstract class Creature : MonoBehaviour {
 
 	[SerializeField]
-	string m_creatureName;
+	string 				m_creatureName = null;
+    
 
-	[SerializeField]
-	int					m_refCreatureID;
-
-	AIAgent				m_aiAgent = null;
+    AIAgent				m_aiAgent = null;
 	AIPath				m_aiPath = null;
-	[SerializeField]
-	StatsProp	m_statsProp;
-	[SerializeField]
-	AnimationClip		m_attackAniClip;
 
 	[SerializeField]
-	ItemInventory		m_itemInventory;
+	AnimationClip		m_attackAniClip = null;
+
 
 	int				m_layerMaskForEnemy;
 	Animator		m_animator;
@@ -30,7 +26,7 @@ public abstract class Creature : MonoBehaviour {
 
 	public void Start () {
 
-		m_statsProp.Init(RefDataMgr.Instance.RefCreatures[m_refCreatureID].stats);
+        CreatureSerializeFileds.Init();
 
 		m_aiPath = GetComponent<AIPath>();
 		m_animator = GetComponentInChildren<Animator>();
@@ -38,14 +34,15 @@ public abstract class Creature : MonoBehaviour {
 		m_hpBox = transform.Find("Canvas/HPPanel").GetComponent<GuageBox>();
 		m_xpBox = transform.Find("Canvas/XPPanel").GetComponent<GuageBox>();
 
-		if (gameObject.layer == LayerMask.NameToLayer("Hero"))
-			m_layerMaskForEnemy = 1 << LayerMask.NameToLayer("Mob");
-		else if (gameObject.layer == LayerMask.NameToLayer("Mob"))
-			m_layerMaskForEnemy = 1 << LayerMask.NameToLayer("Hero");
-		
-		m_aiAgent = new AIAgent();
-		m_aiAgent.Init(this, defaultAIBehavior());
-	}
+        if (gameObject.layer == LayerMask.NameToLayer("Hero"))
+            m_layerMaskForEnemy = 1 << LayerMask.NameToLayer("Mob");
+        else if (gameObject.layer == LayerMask.NameToLayer("Mob"))
+            m_layerMaskForEnemy = 1 << LayerMask.NameToLayer("Hero");
+        
+        m_aiAgent = new AIAgent();
+        m_aiAgent.Init(this, defaultAIBehavior());
+
+    }
 
 	bool isAiUpdate()
 	{
@@ -62,7 +59,7 @@ public abstract class Creature : MonoBehaviour {
 
 	public bool IsDeath
 	{
-		get {return m_statsProp.HP <= 0;}
+		get { return CreatureSerializeFileds.Stats.HP <= 0;}
 	}
 
 	IEnumerator LoopCheckDeathDone(Creature attacker)
@@ -78,10 +75,13 @@ public abstract class Creature : MonoBehaviour {
 		if (attacker != null)
 		{
 			attacker.GiveXP((int)StatsProp.GetValue(StatsPropType.DEATH_XP));
-			for (int i = 0; i < ItemInventory.Items.Count; ++i)
-				attacker.ItemInventory.Items.Add(ItemInventory.Items[i]);
+            if (ItemInventory != null)
+            {
+                for (int i = 0; i < ItemInventory.Items.Count; ++i)
+                    attacker.ItemInventory.PutOnBag(ItemInventory.Items[i]);
+            }
 		}
-
+        
 		// 가라앉기
 		yield return new WaitForSeconds(2f);
 		Vector3 pos = transform.position;
@@ -91,8 +91,9 @@ public abstract class Creature : MonoBehaviour {
 			transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime);
 			yield return null;
 		}
+        
 
-		GameObject.Destroy(gameObject);
+        GameObject.Destroy(gameObject);
 	}
 
 	IEnumerator LoopLevelUp()
@@ -120,7 +121,7 @@ public abstract class Creature : MonoBehaviour {
 
 	public void OnFight(Creature attacker)
 	{
-		int dmg = (int)attacker.StatsProp.GetValue(StatsPropType.STR);
+        int dmg = (int)attacker.StatsProp.GetValue(StatsPropType.STR);
 		AIAgent.Attacker = attacker;
 		AIAgent.AiBehaviorRestart = true;
 
@@ -161,7 +162,7 @@ public abstract class Creature : MonoBehaviour {
 
 	public StatsProp StatsProp
 	{
-		get {return m_statsProp;}
+		get { return CreatureSerializeFileds.Stats;}
 	}
 
 
@@ -201,12 +202,22 @@ public abstract class Creature : MonoBehaviour {
 		get {return m_creatureName;}
 	}
 
-	public ItemInventory ItemInventory
+	public int RefCreatureID
 	{
-		get {return m_itemInventory;}
+		get { return CreatureSerializeFileds.RefCreatureID;  }
 	}
 
+	public ItemInventory ItemInventory
+	{
+		get { return CreatureSerializeFileds.ItemInventory; }
+	}
 
-	public abstract AIBehavior defaultAIBehavior();
+    public CreatureSerializeFileds CreatureSerializeFileds
+    {
+        get; set;
+    }
+
+
+    public abstract AIBehavior defaultAIBehavior();
 
 }

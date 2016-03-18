@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using Newtonsoft.Json;
 public enum StatsPropType
 {
 	HP,
@@ -20,24 +20,16 @@ public enum StatsPropType
 	COUNT
 }
 
-[System.Serializable]
 public class StatsProp {
 
-
-	[System.Serializable]
-	public struct Prop
-	{
-		public StatsPropType type;
-		public float value;
-	}
-
-	Dictionary<StatsPropType, float>	m_props = new Dictionary<StatsPropType, float>();
+    [JsonProperty(PropertyName = "Props")]
+    Dictionary<StatsPropType, float>	m_props = new Dictionary<StatsPropType, float>();
 	Dictionary<StatsPropType, float>	m_baseProps = null;
 
 	public void Init(Dictionary<StatsPropType, float> baseProps)
 	{
 		m_baseProps = baseProps;
-		HP = (int)m_baseProps[StatsPropType.MAX_HP];
+		HP = (int)GetValue(StatsPropType.MAX_HP);
 	}
 
 	public float GetValue(StatsPropType type)

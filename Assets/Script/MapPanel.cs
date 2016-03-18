@@ -22,7 +22,7 @@ public class MapPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointer
 
 	void Start()
 	{
-		Follow(GameObject.Find("Heros/Hero").transform.gameObject);
+		//Follow(GameObject.Find("Heros/Hero").transform.gameObject);
 	}
 
 	void Follow(GameObject target)

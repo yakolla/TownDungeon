@@ -7,23 +7,22 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 
-public class RefBaseData
+[System.Serializable]
+public class RefCreature
 {
-	public int 				id;
+    public int id;
+	public Dictionary<StatsPropType, float> Stats;
+
 }
 
 [System.Serializable]
-public class RefCreature : RefBaseData
+public class RefItem
 {
-	public Dictionary<StatsPropType, float>	stats;
-}
-
-[System.Serializable]
-public class RefItem : RefBaseData
-{
-	//[JsonConverter(typeof(StringEnumConverter))]
-	//public ItemData.Option  type;
-	public Dictionary<StatsPropType, float>	stats;
+    //[JsonConverter(typeof(StringEnumConverter))]
+    //public ItemData.Option  type;
+    public int id;
+    public string iconName;
+	public Dictionary<StatsPropType, float> Stats;
 }
 
 
@@ -51,29 +50,8 @@ public class RefDataMgr {
 	
 	void Load()
 	{
-		Deserialize(ref m_refCreatures, "RefCreatures");
-		Deserialize(ref m_refItems, "RefItems");
-	}
-	
-	void DeserializeArray<T>(Dictionary<int, T> records, string fileName) where T : RefBaseData
-	{ 
-		TextAsset textDocument =  Resources.Load("RefData/" + fileName) as TextAsset;
-		
-		T[] datas = JsonConvert.DeserializeObject<T[]>(textDocument.text);				
-		foreach(T data in datas)
-		{
-			records[data.id] = data;
-		}
-		
-	}
-	
-	void Deserialize<T>(ref T records, string fileName)
-	{ 
-		TextAsset textDocument =  Resources.Load("RefData/" + fileName) as TextAsset;
-		
-		records = JsonConvert.DeserializeObject<T>(textDocument.text);			
-		
-		
+		FileMgr.Deserialize(ref m_refCreatures, "RefData/RefCreatures");
+		FileMgr.Deserialize(ref m_refItems, "RefData/RefItems");
 	}
 
 	public Dictionary<int, RefItem> RefItems
