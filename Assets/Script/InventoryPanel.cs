@@ -37,19 +37,20 @@ public class InventoryPanel : MonoBehaviour{
         Clear();
 
         m_creature = creature;
-        initEquipItems(transform.Find("ImageEquipItems"), m_creature.ItemInventory.EquipItems, m_equipItems);
-        initEquipItems(transform.Find("ImageBag/ItemScrollView/Contents"), m_creature.ItemInventory.Items, m_bagItems);
+        pushItems(transform.Find("ImageEquipItems"), m_creature.ItemInventory.EquipItems, m_equipItems);
+        pushItems(transform.Find("ImageBag/ItemScrollView/Contents"), m_creature.ItemInventory.Items, m_bagItems);
         
 	}
+   
 
-	void initEquipItems(Transform equipItems, Dictionary<int, Item> items, List<HUDItemSlot> container)
+	void pushItems(Transform equipItems, Dictionary<int, Item> items, List<HUDItemSlot> container)
 	{
 		RectTransform rtItemSlot = m_prefItemSlot.GetComponent<RectTransform>();
 		RectTransform rtPivot = equipItems.Find("Pivot").GetComponent<RectTransform>();
 		float startX = rtPivot.transform.localPosition.x;
 		float startY = rtPivot.transform.localPosition.y;
 
-        int i = 0;
+        int i = container.Count;
         foreach ( var entry in items)
 		{
 			HUDItemSlot itemSlotObj = (Instantiate(m_prefItemSlot) as GameObject).GetComponent<HUDItemSlot>();
@@ -62,8 +63,6 @@ public class InventoryPanel : MonoBehaviour{
             container.Add(itemSlotObj);
             ++i;
 		}
-
-
 	}    
 
 	public HUDItemSlot SelectedItemSlot
@@ -72,5 +71,8 @@ public class InventoryPanel : MonoBehaviour{
 		set {m_selectedSlot = value;}
 	}
 
-
+    public void EquipItem(Item item)
+    {
+        m_creature.ItemInventory.Equip(item);
+    }
 }

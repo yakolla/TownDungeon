@@ -6,15 +6,15 @@ using UnityEngine.UI;
 [System.Serializable]
 public class CreatureSerializeFileds {
     
-	public int		RefCreatureID = 1;
+	public int		RefCreatureID = 0;
     public StatsProp Stats = null;
     public ItemInventory ItemInventory = null;
 
-    public void Init()
+    public void Init(Creature creature)
     {
         Stats.Init(RefDataMgr.Instance.RefCreatures[RefCreatureID].Stats);
         if (ItemInventory != null)
-            ItemInventory.Init();
+            ItemInventory.Init(creature);
     }
 
 }

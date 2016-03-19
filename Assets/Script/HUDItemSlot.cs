@@ -14,14 +14,16 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	InventoryPanel	m_inventory;
 	GuageBox	m_xpGuageBox;
 	Button		m_buttonUpgrade;
-	Item m_item;
+    Button      m_buttonEquip;
+    Item m_item;
 
 	void Awake()
 	{
 		m_xpGuageBox = GetComponentInChildren<GuageBox>();
 		m_itemIcon = transform.Find("ImageIcon").GetComponent<Image>();
 		m_buttonUpgrade = transform.Find("ImageIcon/ButtonUpgrade").GetComponent<Button>();
-		m_selectedImage = transform.Find("ImageSelected").GetComponent<Image>();
+        m_buttonEquip = transform.Find("ImageIcon/ButtonEquip").GetComponent<Button>();
+        m_selectedImage = transform.Find("ImageSelected").GetComponent<Image>();
 		m_initScale = m_itemIcon.transform.localScale;
 		m_goalScale = m_initScale;
 	}
@@ -60,7 +62,8 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		m_itemIcon.transform.localScale = m_goalScale = m_initScale;
 		m_selectedImage.enabled = false;
 		m_selected = false;
-	}
+        m_buttonEquip.gameObject.SetActive(m_selected);
+    }
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
@@ -75,7 +78,9 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		else
 			OnUnfocus();
 
-	}
+        m_buttonEquip.gameObject.SetActive(m_selected);
+
+    }
 
 	void Update()
 	{
@@ -84,16 +89,24 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (m_item.XP >= m_item.XPToNextLevel)
 		{
 			m_buttonUpgrade.gameObject.SetActive(true);
-		}
+            m_xpGuageBox.gameObject.SetActive(false);
+
+        }
 		else
 		{
 			m_buttonUpgrade.gameObject.SetActive(false);
-		}
+            m_xpGuageBox.gameObject.SetActive(true);
+        }
 	}
 
     public void OnClickUpgrade()
     {
         m_item.LevelUp();
+    }
+
+    public void OnClickEquip()
+    {
+        m_inventory.EquipItem(m_item);
     }
 }
 

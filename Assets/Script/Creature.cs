@@ -26,8 +26,10 @@ public abstract class Creature : MonoBehaviour {
 
 	public void Start () {
 
-        CreatureSerializeFileds.Init();
+        CreatureSerializeFileds.Init(this);
         HP = (int)StatsProp.GetValue(StatsPropType.MAX_HP);
+
+
 		m_aiPath = GetComponent<AIPath>();
 		m_animator = GetComponentInChildren<Animator>();
 		m_speechBox = transform.Find("Canvas/SpeechPanel").GetComponent<SpeechBox>();
@@ -78,7 +80,7 @@ public abstract class Creature : MonoBehaviour {
             if (ItemInventory != null && attacker.ItemInventory != null)
             {
                 foreach (var entry in ItemInventory.Items)
-                    attacker.ItemInventory.PutOnBag(entry.Value);
+                    attacker.ItemInventory.PutOn(entry.Value);
             }
 		}
         
