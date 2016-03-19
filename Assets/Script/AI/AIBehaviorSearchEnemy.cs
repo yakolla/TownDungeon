@@ -35,7 +35,7 @@ public class AIBehaviorSearchEnemy : AIBehavior {
 			target = colls[Random.Range(0, colls.Length)].gameObject.GetComponent<Creature>();
 		}
 
-		if (target.StatsProp.HP == 0)
+		if (target.HP == 0)
 			return AIBehaviorResultType.FAIL;
 
 		m_creature.AIAgent.Target = target.gameObject;

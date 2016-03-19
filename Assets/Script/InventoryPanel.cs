@@ -11,7 +11,11 @@ public class InventoryPanel : MonoBehaviour{
 	List<HUDItemSlot> m_equipItems = new List<HUDItemSlot>();
 	List<HUDItemSlot> m_bagItems = new List<HUDItemSlot>();
 
-	void Clear()
+    [SerializeField]
+    GameObject m_prefItemSlot = null;
+
+
+    void Clear()
 	{
 		for (int i = 0; i < m_equipItems.Count; ++i)
 		{
@@ -30,16 +34,17 @@ public class InventoryPanel : MonoBehaviour{
 
 	public void SetCreature(Creature creature)
 	{
-		m_creature = creature;
-		initEquipItems(transform.Find("ImageEquipItems"), m_creature.ItemInventory.EquipItems, m_equipItems);
+        Clear();
+
+        m_creature = creature;
+        initEquipItems(transform.Find("ImageEquipItems"), m_creature.ItemInventory.EquipItems, m_equipItems);
         initEquipItems(transform.Find("ImageBag/ItemScrollView/Contents"), m_creature.ItemInventory.Items, m_bagItems);
         
 	}
 
 	void initEquipItems(Transform equipItems, Dictionary<int, Item> items, List<HUDItemSlot> container)
 	{
-		GameObject prefItemSlot = Resources.Load("Pref/HUD/HudItemSlot") as GameObject;
-		RectTransform rtItemSlot = prefItemSlot.GetComponent<RectTransform>();
+		RectTransform rtItemSlot = m_prefItemSlot.GetComponent<RectTransform>();
 		RectTransform rtPivot = equipItems.Find("Pivot").GetComponent<RectTransform>();
 		float startX = rtPivot.transform.localPosition.x;
 		float startY = rtPivot.transform.localPosition.y;
@@ -47,12 +52,12 @@ public class InventoryPanel : MonoBehaviour{
         int i = 0;
         foreach ( var entry in items)
 		{
-			HUDItemSlot itemSlotObj = (Instantiate(prefItemSlot) as GameObject).GetComponent<HUDItemSlot>();
+			HUDItemSlot itemSlotObj = (Instantiate(m_prefItemSlot) as GameObject).GetComponent<HUDItemSlot>();
 			itemSlotObj.Init(this, entry.Value);
 			
 			itemSlotObj.transform.SetParent(equipItems);
 			itemSlotObj.transform.localPosition = new Vector3(startX + rtItemSlot.rect.width * (i % Helper.ItemCols), startY - rtPivot.rect.height * (i / Helper.ItemCols), 0);
-			itemSlotObj.transform.localScale = prefItemSlot.transform.localScale;
+			itemSlotObj.transform.localScale = m_prefItemSlot.transform.localScale;
 
             container.Add(itemSlotObj);
             ++i;

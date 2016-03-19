@@ -31,7 +31,7 @@ public class AIBehaviorAttack : AIBehavior {
 			return AIBehaviorResultType.FAIL;
 
 		Creature target = m_creature.AIAgent.Target.GetComponent<Creature>();
-		if (target.StatsProp.HP == 0)
+		if (target.HP == 0)
 			return AIBehaviorResultType.FAIL;
 
 		m_creature.transform.LookAt(target.transform, Vector3.up);

@@ -17,6 +17,7 @@ public enum StatsPropType
 	DEATH_XP,
 	GOLD,
 	DEATH_GOLD,
+    LEVEL,
 	COUNT
 }
 
@@ -29,8 +30,6 @@ public class StatsProp {
 	public void Init(StatsProp baseProps)
 	{
 		m_baseProps = baseProps.m_props;
-		int hp = (int)GetValue(StatsPropType.MAX_HP);
-        HP = hp;
 	}
 
 	public float GetValue(StatsPropType type)
@@ -55,25 +54,5 @@ public class StatsProp {
 		
 		m_props[type] = value;
 	}
-
-	public int HP
-	{
-		get { return (int)GetValue(StatsPropType.HP);}
-		set 
-		{
-			SetValue(StatsPropType.HP, Mathf.Clamp(value, 0f, GetValue(StatsPropType.MAX_HP)));
-		}
-	}
-
-	public int MaxXP
-	{
-		get {return Level*Helper.XPBlock;}
-	}
-
-	public int Level
-	{
-		get {return (int)(1+GetValue(StatsPropType.XP)/Helper.XPBlock);}
-	}
-
 
 }
