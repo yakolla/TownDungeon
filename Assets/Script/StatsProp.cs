@@ -26,10 +26,11 @@ public class StatsProp {
     Dictionary<StatsPropType, float>	m_props = new Dictionary<StatsPropType, float>();
 	Dictionary<StatsPropType, float>	m_baseProps = null;
 
-	public void Init(Dictionary<StatsPropType, float> baseProps)
+	public void Init(StatsProp baseProps)
 	{
-		m_baseProps = baseProps;
-		HP = (int)GetValue(StatsPropType.MAX_HP);
+		m_baseProps = baseProps.m_props;
+		int hp = (int)GetValue(StatsPropType.MAX_HP);
+        HP = hp;
 	}
 
 	public float GetValue(StatsPropType type)

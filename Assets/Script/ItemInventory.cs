@@ -33,7 +33,7 @@ public class ItemInventory {
 	public void PutOnBag(Item item)
 	{
 		if (Items.ContainsKey(item.RefItemID))
-			Items[item.RefItemID].Stats.SetValue(StatsPropType.XP, Items[item.RefItemID].Stats.GetValue(StatsPropType.XP) + item.Stats.GetValue(StatsPropType.XP));
+			Items[item.RefItemID].Stats.SetValue(StatsPropType.XP, Items[item.RefItemID].Stats.GetValue(StatsPropType.XP) + 1);
 		else
 			Items.Add(item.RefItemID, item);
 	}

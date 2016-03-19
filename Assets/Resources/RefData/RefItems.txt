@@ -3,8 +3,9 @@
 		"id":1,
 		"iconName":"FollowerBoomerangMarines",
 		"Stats":{
-			"STR":1
-			
+			"Props":{
+				"STR":1
+			}
 		}
 		
 	},
@@ -12,24 +13,27 @@
 		"id":2,
 		"iconName":"FollowerBoomerangMarines",
 		"Stats":{
-			"STR":1
-			
+			"Props":{
+				"STR":1
+			}
 		}
 	},
 	3:{
 		"id":3,
 		"iconName":"FollowerBoomerangMarines",
 		"Stats":{
-			"STR":1
-			
+			"Props":{
+				"STR":1
+			}
 		}
 	},
 	4:{
 		"id":4,
 		"iconName":"FollowerBoomerangMarines",
 		"Stats":{
-			"STR":1
-			
+			"Props":{
+				"STR":1
+			}
 		}
 	}
 }

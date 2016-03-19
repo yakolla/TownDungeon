@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CreatureSerializeFileds {
     
 	public int		RefCreatureID = 1;
-    public StatsProp Stats;
+    public StatsProp Stats = null;
     public ItemInventory ItemInventory = null;
 
     public void Init()

@@ -13,6 +13,7 @@ public class Item {
     {
         RefItem refItem = RefDataMgr.Instance.RefItems[RefItemID];
         Stats.Init(refItem.Stats);
+        RefItemID = refItem.id;
         m_icon = Resources.Load<Texture2D>("Sprites/"+refItem.iconName);
     }
 

@@ -75,10 +75,10 @@ public abstract class Creature : MonoBehaviour {
 		if (attacker != null)
 		{
 			attacker.GiveXP((int)StatsProp.GetValue(StatsPropType.DEATH_XP));
-            if (ItemInventory != null)
+            if (ItemInventory != null && attacker.ItemInventory != null)
             {
-                for (int i = 0; i < ItemInventory.Items.Count; ++i)
-                    attacker.ItemInventory.PutOnBag(ItemInventory.Items[i]);
+                foreach (var entry in ItemInventory.Items)
+                    attacker.ItemInventory.PutOnBag(entry.Value);
             }
 		}
         

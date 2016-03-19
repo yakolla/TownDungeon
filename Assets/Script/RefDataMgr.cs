@@ -10,9 +10,9 @@ using Newtonsoft.Json.Converters;
 [System.Serializable]
 public class RefCreature
 {
-    public int id;
-	public Dictionary<StatsPropType, float> Stats;
-
+    public int RefCreatureID;
+    public StatsProp Stats;
+    public ItemInventory ItemInventory;
 }
 
 [System.Serializable]
@@ -22,7 +22,7 @@ public class RefItem
     //public ItemData.Option  type;
     public int id;
     public string iconName;
-	public Dictionary<StatsPropType, float> Stats;
+	public StatsProp Stats;
 }
 
 

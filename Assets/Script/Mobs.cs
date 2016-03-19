@@ -26,11 +26,11 @@ public class Mobs : Creatures
         while (true)
 		{
 
-            RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(0, keyList.Count)]];
+            RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(1, keyList.Count)]];
             CreatureSerializeFileds fileds = new CreatureSerializeFileds();
-            fileds.RefCreatureID = randRefCreature.id;
+            fileds.RefCreatureID = randRefCreature.RefCreatureID;
+            fileds.ItemInventory = randRefCreature.ItemInventory;
             fileds.Stats = new StatsProp();
-            fileds.Stats.Init(randRefCreature.Stats);
             Spawn(fileds, new Vector3(Random.Range(m_rtArea.xMin, m_rtArea.width), 0, Random.Range(m_rtArea.yMin, m_rtArea.height)));
             yield return new WaitForSeconds(m_spawnTime);
 		}
