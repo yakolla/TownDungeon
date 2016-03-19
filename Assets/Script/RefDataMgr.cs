@@ -6,18 +6,25 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
+public enum WeaponType
+{
+    SWORD,
+    ARROW,
+    COUNT
+}
 
 public class RefCreature
 {
     public int id;
     public StatsProp Stats;
     public ItemInventory ItemInventory;
+    [JsonConverter(typeof(StringEnumConverter))]
+    public WeaponType WeaponType;
+
 }
 
 public class RefItem
 {
-    //[JsonConverter(typeof(StringEnumConverter))]
-    //public ItemData.Option  type;
     public int id;
     public string iconName;
 	public StatsProp Stats;

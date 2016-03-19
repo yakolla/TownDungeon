@@ -23,14 +23,15 @@ public abstract class Creature : MonoBehaviour {
 	GuageBox		m_hpBox;
 	GuageBox		m_xpBox;
 	int				m_aniEffectCount = 0;
+    bool m_death = true;
 
 	public void Start () {
 
         CreatureSerializeFileds.Init(this);
         HP = (int)StatsProp.GetValue(StatsPropType.MAX_HP);
+        
 
-
-		m_aiPath = GetComponent<AIPath>();
+        m_aiPath = GetComponent<AIPath>();
 		m_animator = GetComponentInChildren<Animator>();
 		m_speechBox = transform.Find("Canvas/SpeechPanel").GetComponent<SpeechBox>();
 		m_hpBox = transform.Find("Canvas/HPPanel").GetComponent<GuageBox>();
@@ -44,6 +45,9 @@ public abstract class Creature : MonoBehaviour {
         m_aiAgent = new AIAgent();
         m_aiAgent.Init(this, defaultAIBehavior());
 
+        m_death = false;
+        m_aiPath.speed = StatsProp.GetValue(StatsPropType.MOVE_SPEED);
+        GetComponent<Pathfinding.RVO.RVOController>().maxSpeed = m_aiPath.speed;
     }
 
 	bool isAiUpdate()
@@ -61,7 +65,7 @@ public abstract class Creature : MonoBehaviour {
 
 	public bool IsDeath
 	{
-		get { return HP <= 0;}
+		get { return m_death; }
 	}
 
 	IEnumerator LoopCheckDeathDone(Creature attacker)
@@ -121,21 +125,61 @@ public abstract class Creature : MonoBehaviour {
 
 	}
 
-	public void OnFight(Creature attacker)
+    public void OnDamage(Creature attacker, int dmg)
+    {
+        AIAgent.Attacker = attacker;
+        AIAgent.AiBehaviorRestart = true;
+
+        HP -= dmg;
+        m_hpBox.Amount("-" + dmg, HP / StatsProp.GetValue(StatsPropType.MAX_HP));
+
+        if (HP <= 0 && IsDeath == false)
+        {
+            m_death = true;
+            m_animator.SetBool("Death", true);
+            StartCoroutine(LoopCheckDeathDone(attacker));
+        }
+    }
+
+    IEnumerator LoopAttackHit(float hitTime, Creature target, int dmg)
+    {
+        yield return new WaitForSeconds(hitTime);
+
+        if (target != null)
+            target.OnDamage(this, dmg);
+    }
+
+	public float OnFight(Creature target)
 	{
-        int dmg = (int)attacker.StatsProp.GetValue(StatsPropType.STR);
-		AIAgent.Attacker = attacker;
-		AIAgent.AiBehaviorRestart = true;
+        transform.LookAt(target.transform, Vector3.up);
 
-		HP -= dmg;
-		m_hpBox.Amount("-"+dmg, HP/StatsProp.GetValue(StatsPropType.MAX_HP));
+        Animator.SetTrigger("Attack");
+        float atkSpeed = StatsProp.GetValue(StatsPropType.ATK_SPEED);
+        Animator.speed = atkSpeed;
 
-		if (IsDeath)
-		{
-			m_animator.SetBool("Death", true);
-			StartCoroutine(LoopCheckDeathDone(attacker));
-		}
-	}
+        float delay = 1 / atkSpeed;
+        float aniLen = AttackAniClip.length / atkSpeed;
+        float nextToAttackTime = Time.time + delay + aniLen;
+
+        int dmg = (int)StatsProp.GetValue(StatsPropType.STR);
+
+        switch(RefDataMgr.Instance.RefCreatures[RefCreatureID].WeaponType)
+        {
+            case WeaponType.SWORD:
+                StartCoroutine(LoopAttackHit((delay + aniLen) * 0.5f, target, dmg));
+                break;
+            case WeaponType.ARROW:
+                GameObject arrowObj = Instantiate(Resources.Load("Pref/Weapons/Arrow")) as GameObject;
+                Arrow arrow = arrowObj.GetComponent<Arrow>();
+                arrow.Init(transform.position, target.transform.position, 5, 0.5f, () => {
+                    StartCoroutine(LoopAttackHit(0f, target, dmg));
+                });
+                break;
+        }
+        
+        return nextToAttackTime;
+
+    }
 
 	public void OnPickUpItem(ItemBox itemBox)
 	{

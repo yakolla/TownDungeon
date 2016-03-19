@@ -19,6 +19,7 @@ public enum StatsPropType
 	GOLD,
 	DEATH_GOLD,
     LEVEL,
+    MOVE_SPEED,
 	COUNT
 }
 

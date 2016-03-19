@@ -26,7 +26,7 @@ public class Mobs : Creatures
         while (true)
 		{
 
-            RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(1, keyList.Count)]];
+            RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(2, keyList.Count)]];
             CreatureSerializeFileds fileds = new CreatureSerializeFileds();
             fileds.RefCreatureID = randRefCreature.id;
             fileds.ItemInventory = randRefCreature.ItemInventory;

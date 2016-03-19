@@ -29,5 +29,36 @@
 			}
 		}
 
+	},
+	2:{
+		"RefCreatureID":2,
+		"Stats":{
+			"Props":{
+				
+			}
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				1:{
+					"RefItemID":1,
+					"Stats":{
+						"Props":{
+							"ITEM_XP":1							
+						}
+					}
+				}
+			},
+			"Items":{
+				2:{
+					"RefItemID":2,
+					"Stats":{
+						"Props":{
+							"ITEM_XP":1							
+						}
+					}
+				}
+			}
+		}
+
 	}
 }

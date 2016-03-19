@@ -1,26 +1,105 @@
 {
 	1:{
 		"id":1,
+		"WeaponType":"SWORD",
 		"Stats":{
 			"Props":{
-				"STR":1,
+				"STR":4,
 				"MAX_HP":40,
 				"ATK_RANGE":4,
 				"ATK_SPEED":2,
+				"MOVE_SPEED":3,
 				"SIGHT":5
 			}
 		}
 	},
 	2:{
 		"id":2,
+		"WeaponType":"ARROW",
+		"Stats":{
+			"Props":{
+				"STR":2,
+				"MAX_HP":20,
+				"ATK_RANGE":8,
+				"ATK_SPEED":1,
+				"MOVE_SPEED":1,
+				"SIGHT":9
+			}
+			
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				2:{
+					"RefItemID":2,
+					"Stats":{
+						"Props":{
+													
+						}
+					}
+				}
+			},
+			"Items":{
+				3:{
+					"RefItemID":3,
+					"Stats":{
+						"Props":{
+													
+						}
+					}
+				}
+			}
+		}
+	},
+	10000:{
+		"id":10000,
+		"WeaponType":"ARROW",
 		"Stats":{
 			"Props":{
 				"STR":1,
-				"MAX_HP":4,
+				"MAX_HP":40,
 				"ATK_RANGE":4,
 				"ATK_SPEED":1,
 				"SIGHT":5,
-				"DEATH_XP":1
+				"DEATH_XP":1,
+				"MOVE_SPEED":1,
+			}
+			
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				2:{
+					"RefItemID":2,
+					"Stats":{
+						"Props":{
+													
+						}
+					}
+				}
+			},
+			"Items":{
+				3:{
+					"RefItemID":3,
+					"Stats":{
+						"Props":{
+													
+						}
+					}
+				}
+			}
+		}
+	},
+	10001:{
+		"id":10001,
+		"WeaponType":"SWORD",
+		"Stats":{
+			"Props":{
+				"STR":1,
+				"MAX_HP":20,
+				"ATK_RANGE":4,
+				"ATK_SPEED":1,
+				"SIGHT":5,
+				"DEATH_XP":1,
+				"MOVE_SPEED":2,
 			}
 			
 		},

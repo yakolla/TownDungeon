@@ -31,21 +31,10 @@ public class AIBehaviorAttack : AIBehavior {
 			return AIBehaviorResultType.FAIL;
 
 		Creature target = m_creature.AIAgent.Target.GetComponent<Creature>();
-		if (target.HP == 0)
+		if (target.IsDeath == true)
 			return AIBehaviorResultType.FAIL;
 
-		m_creature.transform.LookAt(target.transform, Vector3.up);
-
-		target.OnFight(m_creature);
-
-		m_creature.Animator.SetTrigger("Attack");
-		float atkSpeed = m_creature.StatsProp.GetValue(StatsPropType.ATK_SPEED);
-		m_creature.Animator.speed = atkSpeed;
-
-		float delay = 1/atkSpeed;
-		float aniLen = m_creature.AttackAniClip.length/atkSpeed;
-		m_attackableTime = Time.time + delay + aniLen;
-
+        m_attackableTime = m_creature.OnFight(target);
 
 		return AIBehaviorResultType.RUNNING;
 	}

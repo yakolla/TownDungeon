@@ -8,15 +8,11 @@ public class AIBehaviorMoveToTargetPos : AIBehavior {
 	public AIBehaviorMoveToTargetPos(Creature creature)
 	{
 		m_creature = creature;
-
 	}
-
-
 
 	public override void Start()
 	{
-		m_creature.AIPath.SearchPath(m_creature.AIAgent.TargetPos);
-		
+		m_creature.AIPath.SearchPath(m_creature.AIAgent.TargetPos);		
 	}
 	
 	public override AIBehaviorResultType Update()
