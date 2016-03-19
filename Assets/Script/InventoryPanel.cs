@@ -19,7 +19,7 @@ public class InventoryPanel : MonoBehaviour{
     RectTransform m_rtPivotBagItems = null;
     CreatureStatsInfoPanel m_creatureStatsInfoPanel = null;
 
-    void Clear()
+    public void Clear()
 	{
 		for (int i = 0; i < m_equipItems.Count; ++i)
 		{

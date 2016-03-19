@@ -50,7 +50,7 @@ public abstract class Creature : MonoBehaviour {
         GetComponent<Pathfinding.RVO.RVOController>().maxSpeed = m_aiPath.speed;
     }
 
-	bool isAiUpdate()
+	bool canAiUpdate()
 	{
 		return IsDeath == false && m_aniEffectCount == 0;
 	}
@@ -58,7 +58,7 @@ public abstract class Creature : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (isAiUpdate())
+		if (canAiUpdate())
 			m_aiAgent.Update();
 
 	}

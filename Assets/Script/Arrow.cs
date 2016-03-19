@@ -65,7 +65,8 @@ public class Arrow : MonoBehaviour {
 
             StartCoroutine(LoopDeath());
         }
-        transform.LookAt(m_prevPos);
+        //transform.LookAt(m_prevPos);
+        transform.rotation = Quaternion.LookRotation((m_prevPos- transform.position).normalized);
         m_elapseTime += Time.deltaTime* m_speed;
     }
 }

@@ -17,9 +17,9 @@ public class CreatureStatsInfoPanel : MonoBehaviour {
 
     public void Init()
 	{
-		m_textCreatureName = transform.Find("ImageIcon/ImageCreatureDesc/TextName").GetComponent<Text>();
-		m_textCreatureType = transform.Find("ImageIcon/ImageCreatureDesc/TextType").GetComponent<Text>();
-		m_textCreatureDesc = transform.Find("ImageIcon/ImageCreatureDesc/TextDesc").GetComponent<Text>();
+		m_textCreatureName = transform.Find("ImageIcon/ImageCreatureDesc/TextName/Text").GetComponent<Text>();
+		m_textCreatureType = transform.Find("ImageIcon/ImageCreatureDesc/TextType/Text").GetComponent<Text>();
+		m_textCreatureDesc = transform.Find("ImageIcon/ImageCreatureDesc/TextDesc/Text").GetComponent<Text>();
 		m_imageIcon = transform.Find("ImageIcon").GetComponent<Image>();
 
 		string[] statsNames = System.Enum.GetNames(typeof(StatsPropType));
@@ -35,21 +35,34 @@ public class CreatureStatsInfoPanel : MonoBehaviour {
         }
 	}
 
+    public void Clear()
+    {
+        m_textCreatureName.text = "";
+        m_textCreatureType.text = "";
+        m_textCreatureDesc.text = "";
+        m_imageIcon.sprite = null;
+        foreach (var entry in m_statsTexts)
+        {
+            entry.Value.text = "";
+        }
+    }
+
 	public void SetCreature(Creature creature)
 	{
-
 		m_creature = creature;
 		m_imageIcon.sprite = Helper.Photo(creature.gameObject);
 		m_textCreatureName.text = creature.CreatureName;
-	}
+        m_textCreatureType.text = RefDataMgr.Instance.RefCreatures[creature.RefCreatureID].WeaponType.ToString();
+
+    }
 
 	void Update()
 	{
 		if (m_creature != null)
 		{
-			foreach (var a in m_statsTexts)
+			foreach (var entry in m_statsTexts)
 			{
-				a.Value.text = ((int)(m_creature.StatsProp.GetValue(a.Key))).ToString();
+				entry.Value.text = ((int)(m_creature.StatsProp.GetValue(entry.Key))).ToString();
 			}
 		}
 
