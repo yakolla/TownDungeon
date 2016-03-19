@@ -14,14 +14,16 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	InventoryPanel	m_inventory;
 	GuageBox	m_xpGuageBox;
 	Button		m_buttonUpgrade;
-	Item m_item;
+    Button      m_buttonEquip;
+    Item m_item;
 
 	void Awake()
 	{
 		m_xpGuageBox = GetComponentInChildren<GuageBox>();
 		m_itemIcon = transform.Find("ImageIcon").GetComponent<Image>();
 		m_buttonUpgrade = transform.Find("ImageIcon/ButtonUpgrade").GetComponent<Button>();
-		m_selectedImage = transform.Find("ImageSelected").GetComponent<Image>();
+        m_buttonEquip = transform.Find("ImageIcon/ButtonEquip").GetComponent<Button>();
+        m_selectedImage = transform.Find("ImageSelected").GetComponent<Image>();
 		m_initScale = m_itemIcon.transform.localScale;
 		m_goalScale = m_initScale;
 	}
@@ -30,7 +32,7 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	{
 		m_inventory = inventoryPanel;
 		m_itemIcon.sprite = Sprite.Create(item.Icon, new Rect(0, 0, item.Icon.width, item.Icon.height), new Vector2(.5f,.5f));
-		m_xpGuageBox.Amount(item.Stats.GetValue(StatsPropType.XP) + "/" + item.Stats.MaxXP, item.Stats.GetValue(StatsPropType.XP)/item.Stats.MaxXP);
+		
 		m_item = item;
 
 	}
@@ -60,7 +62,8 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		m_itemIcon.transform.localScale = m_goalScale = m_initScale;
 		m_selectedImage.enabled = false;
 		m_selected = false;
-	}
+        m_buttonEquip.gameObject.SetActive(m_selected);
+    }
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
@@ -75,23 +78,35 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		else
 			OnUnfocus();
 
-	}
+        m_buttonEquip.gameObject.SetActive(m_selected);
+
+    }
 
 	void Update()
 	{
 		m_itemIcon.transform.localScale = Vector3.Lerp(m_itemIcon.transform.localScale, m_goalScale, Time.deltaTime);
-
-		if (m_item.Stats.GetValue(StatsPropType.XP) >= m_item.Stats.MaxXP)
+        m_xpGuageBox.Amount(m_item.XP + "/" + m_item.XPToNextLevel, m_item.XP / (float)m_item.XPToNextLevel);
+        if (m_item.XP >= m_item.XPToNextLevel)
 		{
-			m_buttonUpgrade.enabled = true;
-			m_xpGuageBox.enabled = false;
-		}
+			m_buttonUpgrade.gameObject.SetActive(true);
+            m_xpGuageBox.gameObject.SetActive(false);
+
+        }
 		else
 		{
-			m_buttonUpgrade.enabled = false;
-			m_xpGuageBox.enabled = true;
-		}
+			m_buttonUpgrade.gameObject.SetActive(false);
+            m_xpGuageBox.gameObject.SetActive(true);
+        }
 	}
 
+    public void OnClickUpgrade()
+    {
+        m_item.LevelUp();
+    }
+
+    public void OnClickEquip()
+    {
+        m_inventory.EquipItem(m_item);
+    }
 }
 

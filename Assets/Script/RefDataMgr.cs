@@ -7,15 +7,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 
-[System.Serializable]
 public class RefCreature
 {
-    public int RefCreatureID;
+    public int id;
     public StatsProp Stats;
     public ItemInventory ItemInventory;
 }
 
-[System.Serializable]
 public class RefItem
 {
     //[JsonConverter(typeof(StringEnumConverter))]

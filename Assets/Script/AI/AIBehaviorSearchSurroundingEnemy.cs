@@ -22,7 +22,7 @@ public class AIBehaviorSearchSurroundingEnemy : AIBehavior {
 		for (int i = 0; i < colls.Length; ++i)
 		{
 			Creature target = colls[i].gameObject.GetComponent<Creature>();
-			if (target.StatsProp.HP == 0)
+			if (target.HP == 0)
 				continue;
 
 			m_creature.AIAgent.Target = target.gameObject;

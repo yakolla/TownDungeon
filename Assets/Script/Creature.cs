@@ -26,7 +26,9 @@ public abstract class Creature : MonoBehaviour {
 
 	public void Start () {
 
-        CreatureSerializeFileds.Init();
+        CreatureSerializeFileds.Init(this);
+        HP = (int)StatsProp.GetValue(StatsPropType.MAX_HP);
+
 
 		m_aiPath = GetComponent<AIPath>();
 		m_animator = GetComponentInChildren<Animator>();
@@ -59,7 +61,7 @@ public abstract class Creature : MonoBehaviour {
 
 	public bool IsDeath
 	{
-		get { return CreatureSerializeFileds.Stats.HP <= 0;}
+		get { return HP <= 0;}
 	}
 
 	IEnumerator LoopCheckDeathDone(Creature attacker)
@@ -78,7 +80,7 @@ public abstract class Creature : MonoBehaviour {
             if (ItemInventory != null && attacker.ItemInventory != null)
             {
                 foreach (var entry in ItemInventory.Items)
-                    attacker.ItemInventory.PutOnBag(entry.Value);
+                    attacker.ItemInventory.PutOn(entry.Value);
             }
 		}
         
@@ -125,8 +127,8 @@ public abstract class Creature : MonoBehaviour {
 		AIAgent.Attacker = attacker;
 		AIAgent.AiBehaviorRestart = true;
 
-		StatsProp.HP -= dmg;
-		m_hpBox.Amount("-"+dmg, StatsProp.HP/StatsProp.GetValue(StatsPropType.MAX_HP));
+		HP -= dmg;
+		m_hpBox.Amount("-"+dmg, HP/StatsProp.GetValue(StatsPropType.MAX_HP));
 
 		if (IsDeath)
 		{
@@ -140,22 +142,37 @@ public abstract class Creature : MonoBehaviour {
 		Destroy(itemBox.gameObject);
 	}
 
+    public int XPToNextLevel
+    {
+        get { return (Level + 1) * Helper.XPBlock; }
+    }
+
 	public void GiveXP(int xp)
 	{
-		int lv = StatsProp.Level;
-		StatsProp.SetValue(StatsPropType.XP, StatsProp.GetValue(StatsPropType.XP) + xp );
+		int oldLv = Level;
+		XP += xp;
+        
+        while(true)
+        {
+            int xpToLevelup = XPToNextLevel;
+            if (XP < xpToLevelup)
+                break;
 
-		// levelup
-		if (lv < StatsProp.Level)
+            XP = XP - xpToLevelup;
+            Level++;
+
+        }
+
+        // levelup
+        if (oldLv < Level)
 		{
-			m_xpBox.Amount("Lv UP "+StatsProp.Level, 0f);
+			m_xpBox.Amount("Lv UP "+Level, 0f);
 			
 			StartCoroutine(LoopLevelUp());
 		}
 		else
 		{
-			int lvBaseXP = (int)StatsProp.GetValue(StatsPropType.XP)-(StatsProp.Level-1)*Helper.XPBlock;
-			m_xpBox.Amount("+"+xp, lvBaseXP/(float)Helper.XPBlock);
+			m_xpBox.Amount("+"+xp, XP / (float)XPToNextLevel);
 		}
 
 	}
@@ -164,8 +181,6 @@ public abstract class Creature : MonoBehaviour {
 	{
 		get { return CreatureSerializeFileds.Stats;}
 	}
-
-
 
 	public Animator	Animator
 	{
@@ -217,6 +232,23 @@ public abstract class Creature : MonoBehaviour {
         get; set;
     }
 
+    public int HP
+    {
+        get { return (int)StatsProp.GetValue(StatsPropType.HP); }
+        set { StatsProp.SetValue(StatsPropType.HP, Mathf.Clamp(value, 0f, StatsProp.GetValue(StatsPropType.MAX_HP))); }
+    }
+
+    public int Level
+    {
+        get { return (int)StatsProp.GetValue(StatsPropType.LEVEL); }
+        set { StatsProp.SetValue(StatsPropType.LEVEL, value); }
+    }
+
+    public int XP
+    {
+        get { return (int)StatsProp.GetValue(StatsPropType.XP); }
+        set { StatsProp.SetValue(StatsPropType.XP, value); }
+    }
 
     public abstract AIBehavior defaultAIBehavior();
 

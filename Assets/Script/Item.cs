@@ -31,4 +31,33 @@ public class Item {
 	{
 		get; set;
 	}
+
+    public int Level
+    {
+        get { return (int)Stats.GetValue(StatsPropType.LEVEL); }
+        set { Stats.SetValue(StatsPropType.LEVEL, value); }
+    }
+
+    public int XPToNextLevel
+    {
+        get { return (Level + 1) * Helper.XPBlock; }
+    }
+
+    public int XP
+    {
+        get { return (int)Stats.GetValue(StatsPropType.XP); }
+        set { Stats.SetValue(StatsPropType.XP, value); }
+    }
+
+    public bool LevelUp()
+    {
+        if (XP < XPToNextLevel)
+            return false;
+
+        XP = XP-XPToNextLevel;
+        Level++;
+
+        return true;
+    }
+
 }
