@@ -41,6 +41,8 @@ public class InventoryPanel : MonoBehaviour{
 
 		m_bagItems.Clear();
 
+        PreComputeItemStats(null, false);
+
     }
 
 	public void SetCreature(Creature creature)
@@ -148,4 +150,13 @@ public class InventoryPanel : MonoBehaviour{
     {
         m_creatureStatsInfoPanel.PreComputeItemStats(item, equip);
     }
+
+    public void LevelUpItem(Item item)
+    {
+        m_creature.ItemInventory.UnApplyStatsToCreature(item);
+        item.LevelUp();
+        m_creature.ItemInventory.ApplyStatsToCreature(item);
+    }
+
+    
 }

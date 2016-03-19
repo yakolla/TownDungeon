@@ -34,12 +34,12 @@ public class ItemInventory {
 		get; set;
 	}
 
-    void ApplyStatsToCreature(Item item)
+    public void ApplyStatsToCreature(Item item)
     {
         m_creature.StatsProp.ApplyAlpha(item.Stats);
     }
 
-    void UnApplyStatsToCreature(Item item)
+    public void UnApplyStatsToCreature(Item item)
     {
         m_creature.StatsProp.UnApplyAlpha(item.Stats);
     }

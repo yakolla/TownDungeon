@@ -21,6 +21,7 @@ public class RefItem
     public int id;
     public string iconName;
 	public StatsProp Stats;
+    public StatsProp LevelUpStats;
 }
 
 

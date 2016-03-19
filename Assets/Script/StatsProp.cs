@@ -13,6 +13,7 @@ public enum StatsPropType
 	SIGHT,
 	ATK_RANGE,
 	ATK_SPEED,
+    ITEM_XP,
 	XP,
 	DEATH_XP,
 	GOLD,
@@ -38,7 +39,7 @@ public class StatsProp {
 		float baseValue = 0;
 		float value = 0;
         float alphaValue = 0;
-        if (true == m_baseProps.ContainsKey(type))
+        if (m_baseProps != null && true == m_baseProps.ContainsKey(type))
 			baseValue = m_baseProps[type];
 		if (true == m_props.ContainsKey(type))
 			value = m_props[type];
@@ -70,7 +71,7 @@ public class StatsProp {
         m_alphaProps[type] += value;
     }
 
-    public HashSet<StatsPropType> HasStatsPropTypes
+    public HashSet<StatsPropType> GetStatsPropTypes
     {
         get
         {
@@ -94,7 +95,7 @@ public class StatsProp {
 
     public void ApplyAlpha(StatsProp props)
     {
-        foreach (var type in props.HasStatsPropTypes)
+        foreach (var type in props.GetStatsPropTypes)
         {
             OffsetAlphaValue(type, props.GetValue(type));
         }
@@ -102,7 +103,7 @@ public class StatsProp {
 
     public void UnApplyAlpha(StatsProp props)
     {
-        foreach (var type in props.HasStatsPropTypes)
+        foreach (var type in props.GetStatsPropTypes)
         {
             OffsetAlphaValue(type, -props.GetValue(type));
         }

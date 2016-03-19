@@ -120,7 +120,8 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnClickUpgrade()
     {
-        m_item.LevelUp();
+        m_inventory.LevelUpItem(m_item);
+        m_inventory.PreComputeItemStats(m_item, !m_isEquip);
     }
 
     public void OnClickEquip()

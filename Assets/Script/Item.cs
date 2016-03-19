@@ -45,8 +45,8 @@ public class Item {
 
     public int XP
     {
-        get { return (int)Stats.GetValue(StatsPropType.XP); }
-        set { Stats.SetValue(StatsPropType.XP, value); }
+        get { return (int)Stats.GetValue(StatsPropType.ITEM_XP); }
+        set { Stats.SetValue(StatsPropType.ITEM_XP, value); }
     }
 
     public bool LevelUp()
@@ -56,6 +56,12 @@ public class Item {
 
         XP = XP-XPToNextLevel;
         Level++;
+
+        StatsProp levelUpStats = RefDataMgr.Instance.RefItems[RefItemID].LevelUpStats;
+        if (levelUpStats != null)
+        {
+            Stats.ApplyAlpha(levelUpStats);
+        }
 
         return true;
     }

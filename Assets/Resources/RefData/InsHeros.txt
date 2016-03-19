@@ -12,7 +12,7 @@
 					"RefItemID":1,
 					"Stats":{
 						"Props":{
-							"XP":1							
+							"ITEM_XP":1							
 						}
 					}
 				}
@@ -22,7 +22,7 @@
 					"RefItemID":2,
 					"Stats":{
 						"Props":{
-							"XP":1							
+							"ITEM_XP":1							
 						}
 					}
 				}

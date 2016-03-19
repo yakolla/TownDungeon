@@ -142,10 +142,7 @@ public abstract class Creature : MonoBehaviour {
 		Destroy(itemBox.gameObject);
 	}
 
-    public int XPToNextLevel
-    {
-        get { return (Level + 1) * Helper.XPBlock; }
-    }
+    
 
 	public void GiveXP(int xp)
 	{
@@ -230,6 +227,11 @@ public abstract class Creature : MonoBehaviour {
     public CreatureSerializeFileds CreatureSerializeFileds
     {
         get; set;
+    }
+
+    public int XPToNextLevel
+    {
+        get { return (Level + 1) * Helper.XPBlock; }
     }
 
     public int HP

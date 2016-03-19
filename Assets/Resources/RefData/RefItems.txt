@@ -25,6 +25,11 @@
 			"Props":{
 				"STR":1
 			}
+		},
+		"LevelUpStats":{
+			"Props":{
+				"STR":2
+			}
 		}
 	},
 	4:{
