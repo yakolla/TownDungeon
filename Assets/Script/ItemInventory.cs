@@ -39,7 +39,12 @@ public class ItemInventory {
         m_creature.StatsProp.ApplyAlpha(item.Stats);
     }
 
-	public void PutOn(Item item)
+    void UnApplyStatsToCreature(Item item)
+    {
+        m_creature.StatsProp.UnApplyAlpha(item.Stats);
+    }
+
+    public void PutOn(Item item)
 	{
         if (EquipItems.ContainsKey(item.RefItemID))
         {
@@ -68,6 +73,19 @@ public class ItemInventory {
         Items.Remove(item.RefItemID);
 
         ApplyStatsToCreature(item);
+        return true;
+
+    }
+
+    public bool UnEquip(Item item)
+    {
+        if (false == EquipItems.ContainsKey(item.RefItemID))
+            return false;
+
+        Items.Add(item.RefItemID, item);
+        EquipItems.Remove(item.RefItemID);
+
+        UnApplyStatsToCreature(item);
         return true;
 
     }

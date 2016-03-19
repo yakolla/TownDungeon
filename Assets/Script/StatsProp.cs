@@ -94,9 +94,17 @@ public class StatsProp {
 
     public void ApplyAlpha(StatsProp props)
     {
-        foreach(var type in props.HasStatsPropTypes)
+        foreach (var type in props.HasStatsPropTypes)
         {
             OffsetAlphaValue(type, props.GetValue(type));
+        }
+    }
+
+    public void UnApplyAlpha(StatsProp props)
+    {
+        foreach (var type in props.HasStatsPropTypes)
+        {
+            OffsetAlphaValue(type, -props.GetValue(type));
         }
     }
 }

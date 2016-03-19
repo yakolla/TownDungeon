@@ -13,8 +13,9 @@ public class CreatureStatsInfoPanel : MonoBehaviour {
 	Text m_textCreatureDesc;
 	Creature m_creature;
 	Dictionary<StatsPropType, Text>	m_statsTexts = new Dictionary<StatsPropType, Text>();
+    Dictionary<StatsPropType, Text> m_statsOffsetTexts = new Dictionary<StatsPropType, Text>();
 
-	public void Init()
+    public void Init()
 	{
 		m_textCreatureName = transform.Find("ImageIcon/ImageCreatureDesc/TextName").GetComponent<Text>();
 		m_textCreatureType = transform.Find("ImageIcon/ImageCreatureDesc/TextType").GetComponent<Text>();
@@ -28,10 +29,10 @@ public class CreatureStatsInfoPanel : MonoBehaviour {
 			if (trans == null)
 				continue;
 
-			m_statsTexts.Add((StatsPropType)i, trans.GetComponent<Text>());			
-		}
+			m_statsTexts.Add((StatsPropType)i, trans.GetComponent<Text>());
+            m_statsOffsetTexts.Add((StatsPropType)i, trans.Find("TextOffsetValue").GetComponent<Text>());
 
-
+        }
 	}
 
 	public void SetCreature(Creature creature)
@@ -53,4 +54,24 @@ public class CreatureStatsInfoPanel : MonoBehaviour {
 		}
 
 	}
+
+    public void PreComputeItemStats(Item item, bool equip)
+    {
+        string flag = equip == true ? "+" : "-";
+        foreach (var entry in m_statsOffsetTexts)
+        {
+            if (item == null)
+            {
+                entry.Value.text = "";
+            }
+            else
+            {
+                int value = (int)item.Stats.GetValue(entry.Key);
+                if (value == 0)
+                    entry.Value.text = "";
+                else
+                    entry.Value.text = flag + value;
+            }
+        }
+    }
 }
