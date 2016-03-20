@@ -10,6 +10,7 @@ public enum WeaponType
 {
     SWORD,
     ARROW,
+    METEO,
     COUNT
 }
 

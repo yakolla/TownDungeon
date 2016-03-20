@@ -15,14 +15,14 @@
 	},
 	2:{
 		"id":2,
-		"WeaponType":"ARROW",
+		"WeaponType":"METEO",
 		"Stats":{
 			"Props":{
 				"STR":2,
 				"MAX_HP":20,
 				"ATK_RANGE":8,
 				"ATK_SPEED":1,
-				"MOVE_SPEED":1,
+				"MOVE_SPEED":3,
 				"SIGHT":9
 			}
 			

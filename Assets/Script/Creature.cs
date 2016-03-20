@@ -169,11 +169,23 @@ public abstract class Creature : MonoBehaviour {
                 StartCoroutine(LoopAttackHit((delay + aniLen) * 0.5f, target, dmg));
                 break;
             case WeaponType.ARROW:
-                GameObject arrowObj = Instantiate(Resources.Load("Pref/Weapons/Arrow")) as GameObject;
-                Arrow arrow = arrowObj.GetComponent<Arrow>();
-                arrow.Init(transform.position, target.transform.position, 5, 0.5f, () => {
-                    StartCoroutine(LoopAttackHit(0f, target, dmg));
-                });
+                {
+                    GameObject obj = Instantiate(Resources.Load("Pref/Weapons/Arrow")) as GameObject;
+                    Arrow weapon = obj.GetComponent<Arrow>();
+                    weapon.Init(transform.position, target.transform.position, 5, 0.5f, () => {
+                        StartCoroutine(LoopAttackHit(0f, target, dmg));
+                    });
+                }
+                break;
+            case WeaponType.METEO:
+                {
+                    GameObject obj = Instantiate(Resources.Load("Pref/Weapons/Meteo")) as GameObject;
+                    Meteo weapon = obj.GetComponent<Meteo>();
+
+                    weapon.Init(new Vector3(transform.position.x, 20f, transform.position.z), target.transform.position, 8f, () => {
+                        StartCoroutine(LoopAttackHit(0f, target, dmg));
+                    });
+                }
                 break;
         }
         

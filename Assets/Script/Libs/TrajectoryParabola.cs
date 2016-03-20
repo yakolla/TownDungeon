@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 
-public class Parabola {
+public class TrajectoryParabola
+{
 
     public static Vector3 Update(Vector3 start, Vector3 end, float height, float t)
     {

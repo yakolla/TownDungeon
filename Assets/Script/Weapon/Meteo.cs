@@ -3,15 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class Arrow : MonoBehaviour {
+public class Meteo : MonoBehaviour {
     
     Vector3 m_start;
     [SerializeField]
     Vector3 m_end = Vector3.zero;
-    [SerializeField]
-    float m_height = 3f;
+   
     [SerializeField]
     float m_speed = 0f;
+    [SerializeField]
+    GameObject m_prefHitFX;
 
     float m_elapseTime = 0;
     bool m_finish = false;
@@ -39,11 +40,10 @@ public class Arrow : MonoBehaviour {
         GameObject.Destroy(gameObject);
     }
 
-    public void Init(Vector3 start, Vector3 end, float height, float speed, System.Action finishCallback)
+    public void Init(Vector3 start, Vector3 end, float speed, System.Action finishCallback)
     {
         transform.position = start;
         m_end = end;
-        m_height = height;
         m_speed = speed;
         m_finishCallback = finishCallback;
     }
@@ -54,8 +54,8 @@ public class Arrow : MonoBehaviour {
             return;
 
         m_prevPos = transform.position;
-        transform.position = Parabola.Update(m_start, m_end, m_height, m_elapseTime);
-        if (transform.position.y < m_end.y)
+        transform.position = TrajectoryMeteo.Update(m_start, m_end, m_elapseTime);
+        if (Vector3.Distance(transform.position, m_end) == 0f)
         {
             transform.position = new Vector3(transform.position.x, m_end.y, transform.position.z);
             m_finish = true;
@@ -63,10 +63,17 @@ public class Arrow : MonoBehaviour {
             if (m_finishCallback != null)
                 m_finishCallback();
 
+            if (m_prefHitFX != null)
+            {
+                GameObject hitFXObj = Instantiate(m_prefHitFX) as GameObject;
+                Vector3 pos = transform.position;
+                pos.y = m_prefHitFX.transform.position.y;
+                hitFXObj.transform.position = pos;
+            }
+
             StartCoroutine(LoopDeath());
         }
-        //transform.LookAt(m_prevPos);
-        transform.rotation = Quaternion.LookRotation((m_prevPos- transform.position).normalized);
+        
         m_elapseTime += Time.deltaTime* m_speed;
     }
 }
