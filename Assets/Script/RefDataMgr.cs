@@ -13,6 +13,7 @@ public enum WeaponType
     Meteo,
     IceBall,
     IceMeteo,
+    Thunder,
     COUNT
 }
 

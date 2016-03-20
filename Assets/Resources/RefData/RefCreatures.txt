@@ -1,7 +1,7 @@
 {
 	1:{
 		"id":1,
-		"WeaponType":"Meteo",
+		"WeaponType":"Thunder",
 		"Stats":{
 			"Props":{
 				"STR":4,

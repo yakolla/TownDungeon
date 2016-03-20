@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class Meteo : MonoBehaviour {
+public class Thunder : MonoBehaviour {
     
     Vector3 m_start;
     [SerializeField]
@@ -54,8 +54,8 @@ public class Meteo : MonoBehaviour {
             return;
 
         m_prevPos = transform.position;
-        transform.position = TrajectoryMeteo.Update(transform.position, m_end, Time.deltaTime*m_speed);
-        if (Vector3.Distance(transform.position, m_end) == 0f)
+        transform.position = TrajectoryZigZag.Update(transform.position, m_end, Time.deltaTime* m_speed);
+        if (transform.position.y <= 0f)
         {
             transform.position = new Vector3(transform.position.x, m_end.y, transform.position.z);
             m_finish = true;
