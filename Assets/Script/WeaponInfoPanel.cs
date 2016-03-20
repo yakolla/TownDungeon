@@ -42,6 +42,9 @@ public class WeaponInfoPanel : MonoBehaviour {
 
 	void SetCreature(Creature creature)
 	{
+        if (creature == null)
+            return;
+
         m_creatureStatsInfoPanel.SetCreature(creature);
         m_inventoryPanel.SetCreature(creature);
     }

@@ -1,21 +1,21 @@
 {
 	1:{
 		"id":1,
-		"WeaponType":"SWORD",
+		"WeaponType":"Meteo",
 		"Stats":{
 			"Props":{
 				"STR":4,
 				"MAX_HP":40,
-				"ATK_RANGE":4,
-				"ATK_SPEED":2,
+				"ATK_RANGE":8,
+				"ATK_SPEED":1,
 				"MOVE_SPEED":3,
-				"SIGHT":5
+				"SIGHT":9
 			}
 		}
 	},
 	2:{
 		"id":2,
-		"WeaponType":"METEO",
+		"WeaponType":"IceMeteo",
 		"Stats":{
 			"Props":{
 				"STR":2,
@@ -52,7 +52,7 @@
 	},
 	10000:{
 		"id":10000,
-		"WeaponType":"ARROW",
+		"WeaponType":"Arrow",
 		"Stats":{
 			"Props":{
 				"STR":1,
@@ -90,7 +90,7 @@
 	},
 	10001:{
 		"id":10001,
-		"WeaponType":"SWORD",
+		"WeaponType":"Sword",
 		"Stats":{
 			"Props":{
 				"STR":1,

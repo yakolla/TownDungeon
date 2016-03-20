@@ -8,9 +8,11 @@ using Newtonsoft.Json.Converters;
 
 public enum WeaponType
 {
-    SWORD,
-    ARROW,
-    METEO,
+    Sword,
+    Arrow,
+    Meteo,
+    IceBall,
+    IceMeteo,
     COUNT
 }
 

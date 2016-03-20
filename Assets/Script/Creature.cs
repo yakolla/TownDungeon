@@ -163,23 +163,27 @@ public abstract class Creature : MonoBehaviour {
 
         int dmg = (int)StatsProp.GetValue(StatsPropType.STR);
 
-        switch(RefDataMgr.Instance.RefCreatures[RefCreatureID].WeaponType)
+        WeaponType weaponType = RefDataMgr.Instance.RefCreatures[RefCreatureID].WeaponType;
+        switch (weaponType)
         {
-            case WeaponType.SWORD:
+            case WeaponType.Sword:
                 StartCoroutine(LoopAttackHit((delay + aniLen) * 0.5f, target, dmg));
                 break;
-            case WeaponType.ARROW:
+            case WeaponType.Arrow:
+            case WeaponType.IceBall:
                 {
-                    GameObject obj = Instantiate(Resources.Load("Pref/Weapons/Arrow")) as GameObject;
+                    GameObject obj = Instantiate(Resources.Load("Pref/Weapons/"+ weaponType)) as GameObject;
                     Arrow weapon = obj.GetComponent<Arrow>();
                     weapon.Init(transform.position, target.transform.position, 5, 0.5f, () => {
                         StartCoroutine(LoopAttackHit(0f, target, dmg));
                     });
                 }
                 break;
-            case WeaponType.METEO:
+            
+            case WeaponType.Meteo:
+            case WeaponType.IceMeteo:
                 {
-                    GameObject obj = Instantiate(Resources.Load("Pref/Weapons/Meteo")) as GameObject;
+                    GameObject obj = Instantiate(Resources.Load("Pref/Weapons/"+ weaponType)) as GameObject;
                     Meteo weapon = obj.GetComponent<Meteo>();
 
                     weapon.Init(new Vector3(transform.position.x, 20f, transform.position.z), target.transform.position, 8f, () => {
