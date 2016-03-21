@@ -96,8 +96,7 @@ public abstract class Creature : MonoBehaviour {
 		{
 			transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime);
 			yield return null;
-		}
-        
+		}        
 
         GameObject.Destroy(gameObject);
 	}

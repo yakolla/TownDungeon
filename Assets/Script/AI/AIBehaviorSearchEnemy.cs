@@ -15,22 +15,25 @@ public class AIBehaviorSearchEnemy : AIBehavior {
 
 	}
 
-	public override AIBehaviorResultType Update()
-	{
-		Creature target = null;
-		if (m_creature.AIAgent.Target != null)
-		{
-			target = m_creature.AIAgent.Target.GetComponent<Creature>();
-			if (target != null)
-				if (m_creature.StatsProp.GetValue(StatsPropType.SIGHT) < Vector3.Distance(m_creature.transform.position, target.transform.position))
-				    target = null;
-		}
+    public override AIBehaviorResultType Update()
+    {
+        Creature target = null;
+        if (m_creature.AIAgent.Target != null)
+        {
+            target = m_creature.AIAgent.Target.GetComponent<Creature>();
+            if (target != null)
+                if (m_creature.StatsProp.GetValue(StatsPropType.SIGHT) < Vector3.Distance(m_creature.transform.position, target.transform.position))
+                    target = null;
+        }
 
-		if (target == null)
-		{
+        if (target == null)
+        {
             Creature[] targets = GameObject.Find("Mobs").GetComponentsInChildren<Creature>();
             if (targets.Length == 0)
+            {
+                m_creature.AIAgent.Target = null;
                 return AIBehaviorResultType.FAIL;
+            }
 
             target = targets[Random.Range(0, targets.Length)];
             /*
@@ -39,13 +42,16 @@ public class AIBehaviorSearchEnemy : AIBehavior {
 				return AIBehaviorResultType.FAIL; 
 
 			target = colls[Random.Range(0, colls.Length)].gameObject.GetComponent<Creature>();*/
-		}
+        }
 
-		if (target == null || target.IsDeath == true)
-			return AIBehaviorResultType.FAIL;
+        if (target == null || target.IsDeath == true)
+        {
+            m_creature.AIAgent.Target = null;
+            return AIBehaviorResultType.FAIL;
+        }
 
-		m_creature.AIAgent.Target = target.gameObject;
+        m_creature.AIAgent.Target = target.gameObject;
 
-		return AIBehaviorResultType.SUCCESS;
-	}
+        return AIBehaviorResultType.SUCCESS;
+    }
 }
