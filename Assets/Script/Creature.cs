@@ -159,8 +159,9 @@ public abstract class Creature : MonoBehaviour {
 
         float delay = 1 / atkSpeed;
         float aniLen = AttackAniClip.length / atkSpeed;
-        float nextToAttackTime = Time.time + delay + aniLen;
+        float nextToAttackTime = Time.time + delay + aniLen;        
 
+        
         int dmg = (int)StatsProp.GetValue(StatsPropType.STR);
 
         WeaponType weaponType = RefDataMgr.Instance.RefCreatures[RefCreatureID].WeaponType;
@@ -196,14 +197,14 @@ public abstract class Creature : MonoBehaviour {
                     GameObject obj = Instantiate(Resources.Load("Pref/Weapons/" + weaponType)) as GameObject;
                     Thunder weapon = obj.GetComponent<Thunder>();
 
-                    weapon.Init(new Vector3(target.transform.position.x, 20f, target.transform.position.z), new Vector3(target.transform.position.x, 0f, target.transform.position.z), 18f, () => {
+                    weapon.Init(new Vector3(target.transform.position.x, 20f, target.transform.position.z), new Vector3(target.transform.position.x, 0f, target.transform.position.z), 28f, () => {
                         StartCoroutine(LoopAttackHit(0f, target, dmg));
                     });
                 }
                 break;
         }
         
-        return nextToAttackTime;
+		return nextToAttackTime;
 
     }
 

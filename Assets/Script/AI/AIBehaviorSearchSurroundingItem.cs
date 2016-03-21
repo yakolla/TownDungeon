@@ -20,13 +20,11 @@ public class AIBehaviorSearchSurroundingItem : AIBehavior {
 	{
         Collider[] colls = Physics.OverlapSphere(m_creature.transform.position, Helper.MapArea.width, 1<<Helper.LayerMaskItem);
         
-        for (int i = 0; i < colls.Length; ++i)
-		{
-			m_creature.AIAgent.Target = colls[i].gameObject;
+        if (colls.Length == 0)
+            return AIBehaviorResultType.FAIL;
+        
+		m_creature.AIAgent.Target = colls[0].gameObject;
 
-			return AIBehaviorResultType.SUCCESS;
-		}
-
-		return AIBehaviorResultType.FAIL;
+		return AIBehaviorResultType.SUCCESS;		
 	}
 }

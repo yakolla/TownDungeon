@@ -52,7 +52,7 @@
 	},
 	10000:{
 		"id":10000,
-		"WeaponType":"Arrow",
+		"WeaponType":"Sword",
 		"Stats":{
 			"Props":{
 				"STR":1,
@@ -90,7 +90,7 @@
 	},
 	10001:{
 		"id":10001,
-		"WeaponType":"Sword",
+		"WeaponType":"Arrow",
 		"Stats":{
 			"Props":{
 				"STR":1,

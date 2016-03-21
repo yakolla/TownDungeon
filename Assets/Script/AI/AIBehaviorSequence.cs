@@ -5,45 +5,60 @@ using System.Collections.Generic;
 public class AIBehaviorSequence : AIBehavior {
 
 	List<AIBehavior> m_behaviors = new List<AIBehavior>();
-	int m_cur = 0;
-	int m_next = 0;
-	public void Add(AIBehavior behavior)
+	int m_runningIndex = 0;
+    bool m_running = false;
+
+    public AIBehaviorSequence(params AIBehavior[] behaviors)
+    {
+        foreach(var be in behaviors)
+        {
+            m_behaviors.Add(be);
+        }
+    }
+
+    public override void Start ()
 	{
-		m_behaviors.Add(behavior);
+		
 	}
 
-	public override void Start ()
-	{
-		m_behaviors[m_cur].Start();
-	}
+    
 
 	public override AIBehaviorResultType Update()
 	{
 		if (m_behaviors.Count == 0)
 			return AIBehaviorResultType.FAIL;
 
-		if (m_cur != m_next)
-		{
-			m_cur = m_next;
-			Start ();
-		}
+        
+        for (int i = m_runningIndex; i < m_behaviors.Count; ++i)
+        {
+            if (m_running == true)
+            {
+                if (i != m_runningIndex)
+                    m_behaviors[i].Start();
+            }
+            else
+                m_behaviors[i].Start();
 
-		AIBehavior behavior = m_behaviors[m_cur];
 
-		AIBehaviorResultType resultType = behavior.Update();
-		//Debug.Log(behavior.ToString() + " resultType:" + resultType);
-		if (AIBehaviorResultType.SUCCESS != resultType)
-		{
-			if (resultType == AIBehaviorResultType.FAIL)
-			{
-				m_next = 0;
-			}
+            AIBehaviorResultType resultType = m_behaviors[i].Update();
+            if (AIBehaviorResultType.SUCCESS == resultType)
+                continue;
+            if (AIBehaviorResultType.FAIL == resultType)
+            {
+                m_runningIndex = 0;
+                m_running = false;
+                return AIBehaviorResultType.FAIL;
+            }
+            if (AIBehaviorResultType.RUNNING == resultType)
+            {
+                m_runningIndex = i;
+                m_running = true;
+                return AIBehaviorResultType.RUNNING;
+            }
+        }
 
-			return resultType;
-		}
-
-		m_next = (m_cur+1)%m_behaviors.Count;
-
-		return resultType;
+        m_runningIndex = 0;
+        m_running = false;
+        return AIBehaviorResultType.SUCCESS;
 	}
 }

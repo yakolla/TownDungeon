@@ -14,7 +14,9 @@ public class MapPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointer
 	void Awake()
 	{
 		Application.runInBackground = true;
-		m_creatureStatsInfoPanel = transform.parent.GetComponentInChildren<CreatureStatsMiniInfoPanel>();
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
+        m_creatureStatsInfoPanel = transform.parent.GetComponentInChildren<CreatureStatsMiniInfoPanel>();
 		m_weaponInfoPanel = transform.parent.transform.Find("WeaponInfoPanel").gameObject;
 		m_goalPos = Camera.main.transform.position;
 		RefDataMgr.Instance.GetType();
