@@ -9,16 +9,15 @@ public class MapPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointer
 	Vector3	m_goalPos;
 	GameObject m_followingTarget;
 
-	CreatureStatsMiniInfoPanel	m_creatureStatsInfoPanel;
-	GameObject				m_weaponInfoPanel;
-	void Awake()
+	CreatureStatsMiniInfoPanel	m_creatureStatsMiniInfoPanel;
+	GameObject				m_buildingInfoPanel;
+    void Awake()
 	{
 		Application.runInBackground = true;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-        m_creatureStatsInfoPanel = transform.parent.GetComponentInChildren<CreatureStatsMiniInfoPanel>();
-		m_weaponInfoPanel = transform.parent.transform.Find("WeaponInfoPanel").gameObject;
-		m_goalPos = Camera.main.transform.position;
+        m_creatureStatsMiniInfoPanel = transform.parent.GetComponentInChildren<CreatureStatsMiniInfoPanel>();
+        m_goalPos = Camera.main.transform.position;
 		RefDataMgr.Instance.GetType();
 	}
 
@@ -34,15 +33,17 @@ public class MapPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointer
 		{
 			if (m_followingTarget.layer == Helper.LayerMaskBuilding)
 			{
-				m_weaponInfoPanel.SetActive(true);
+                Building building = m_followingTarget.GetComponent<Building>();
+                m_buildingInfoPanel = building.HudGUI;
+                m_buildingInfoPanel.SetActive(true);
 			}
 			else
 			{
-				m_weaponInfoPanel.SetActive(false);
+				
 				Creature creature = m_followingTarget.GetComponent<Creature>();
 				if (creature != null)
 				{
-					m_creatureStatsInfoPanel.SetCreature(creature);
+					m_creatureStatsMiniInfoPanel.SetCreature(creature);
 				}
 			}
 		}
@@ -80,5 +81,11 @@ public class MapPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointer
 		}
 		Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, m_goalPos, Vector3.Distance(Camera.main.transform.position, m_goalPos)*Time.deltaTime*0.5f);
 	}
-
+    
+    public void OnClickCloseBuildingInfo()
+    {
+        if (m_buildingInfoPanel != null)
+            m_buildingInfoPanel.SetActive(false);
+        m_buildingInfoPanel = null;
+    }
 }

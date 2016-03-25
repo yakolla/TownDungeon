@@ -13,9 +13,7 @@ public class Heros : Creatures
         
         foreach (var entry in heros)
         {
-            Spawn(entry.Value, Vector3.zero);
-            Spawn(entry.Value, Vector3.zero);
-            Spawn(entry.Value, Vector3.zero);
+            Spawn(entry.Value, Vector3.zero, Vector3.one);
         }
     }
 	

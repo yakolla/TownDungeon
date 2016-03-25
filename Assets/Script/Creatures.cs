@@ -18,7 +18,7 @@ public class Creatures : MonoBehaviour {
 	// Use this for initialization
 	
 
-    public Creature Spawn(CreatureSerializeFileds fileds, Vector3 pos)
+    public Creature Spawn(CreatureSerializeFileds fileds, Vector3 pos, Vector3 scale)
     {
         GameObject obj = Instantiate(m_pref) as GameObject;
 
@@ -32,7 +32,7 @@ public class Creatures : MonoBehaviour {
 
         obj.transform.SetParent(transform);
         obj.transform.position = pos;
-        
+        obj.transform.localScale = scale;
 
         Creature creature = obj.GetComponent<Creature>();
         creature.CreatureSerializeFileds = fileds;

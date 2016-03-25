@@ -7,6 +7,8 @@ public class Mobs : Creatures
 
 	[SerializeField]
 	float	m_spawnTime = 10f;
+    [SerializeField]
+    float m_maxAliveMobs = 3;
 
 	[SerializeField]
 	Transform	m_area;
@@ -25,13 +27,21 @@ public class Mobs : Creatures
 
         while (true)
 		{
-
-            RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(2, keyList.Count)]];
-            CreatureSerializeFileds fileds = new CreatureSerializeFileds();
-            fileds.RefCreatureID = randRefCreature.id;
-            fileds.ItemInventory = randRefCreature.ItemInventory;
-            fileds.Stats = new StatsProp();
-            Spawn(fileds, new Vector3(Random.Range(m_rtArea.xMin, m_rtArea.width), 0, Random.Range(m_rtArea.yMin, m_rtArea.height)));
+            Creature[] aliveMobs = GetComponentsInChildren<Creature>();
+            if (aliveMobs.Length < m_maxAliveMobs)
+            {                
+                bool boss = Random.RandomRange(0, 100) < 50 ? true : false;
+                Vector3 scale = Vector3.one;
+                if (boss == true)
+                    scale *= 1.8f;
+                RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(2, keyList.Count)]];
+                CreatureSerializeFileds fileds = new CreatureSerializeFileds();
+                fileds.RefCreatureID = randRefCreature.id;
+                fileds.ItemInventory = randRefCreature.ItemInventory;
+                fileds.Stats = new StatsProp();
+                Spawn(fileds, new Vector3(Random.Range(m_rtArea.xMin, m_rtArea.width), 0, Random.Range(m_rtArea.yMin, m_rtArea.height)), scale);
+            }
+           
             yield return new WaitForSeconds(m_spawnTime);
 		}
 

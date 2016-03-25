@@ -33,12 +33,7 @@ public class WeaponInfoPanel : MonoBehaviour {
         m_index = 0;
         SetCreature(m_heros[m_index]);
 
-    }
-
-	public void OnClickButtonClose()
-	{
-		gameObject.SetActive(false);
-	}
+    }    
 
 	void SetCreature(Creature creature)
 	{

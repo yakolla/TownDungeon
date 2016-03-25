@@ -28,7 +28,7 @@ public abstract class Creature : MonoBehaviour {
 	public void Start () {
 
         CreatureSerializeFileds.Init(this);
-        HP = (int)StatsProp.GetValue(StatsPropType.MAX_HP);
+        HP = MaxHP;
         
 
         m_aiPath = GetComponent<AIPath>();
@@ -130,7 +130,7 @@ public abstract class Creature : MonoBehaviour {
         AIAgent.AiBehaviorRestart = true;
 
         HP -= dmg;
-        m_hpBox.Amount("-" + dmg, HP / StatsProp.GetValue(StatsPropType.MAX_HP));
+        m_hpBox.Amount("-" + dmg, HP / (float)MaxHP);
 
         if (HP <= 0 && IsDeath == false)
         {
@@ -227,7 +227,8 @@ public abstract class Creature : MonoBehaviour {
 
             XP = XP - xpToLevelup;
             Level++;
-
+            HP = MaxHP;
+            m_hpBox.Amount("Full", 1f);
         }
 
         // levelup
@@ -307,7 +308,12 @@ public abstract class Creature : MonoBehaviour {
     public int HP
     {
         get { return (int)StatsProp.GetValue(StatsPropType.HP); }
-        set { StatsProp.SetValue(StatsPropType.HP, Mathf.Clamp(value, 0f, StatsProp.GetValue(StatsPropType.MAX_HP))); }
+        set { StatsProp.SetValue(StatsPropType.HP, Mathf.Clamp(value, 0f, MaxHP)); }
+    }
+
+    public int MaxHP
+    {
+        get { return (int)StatsProp.GetValue(StatsPropType.MAX_HP); }
     }
 
     public int Level
