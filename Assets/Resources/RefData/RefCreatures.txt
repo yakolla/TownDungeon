@@ -8,6 +8,7 @@
 				"MAX_HP":40,
 				"ATK_RANGE":8,
 				"ATK_SPEED":1,
+				"ATK_COOLTIME":1,
 				"MOVE_SPEED":3,
 				"SIGHT":9
 			}
@@ -22,6 +23,7 @@
 				"MAX_HP":20,
 				"ATK_RANGE":8,
 				"ATK_SPEED":1,
+				"ATK_COOLTIME":1,
 				"MOVE_SPEED":3,
 				"SIGHT":9
 			}
@@ -59,8 +61,10 @@
 				"MAX_HP":40,
 				"ATK_RANGE":4,
 				"ATK_SPEED":1,
+				"ATK_COOLTIME":2,
 				"SIGHT":5,
 				"DEATH_XP":1,
+				"DEATH_GOLD":100,
 				"MOVE_SPEED":1,
 			}
 			
@@ -97,9 +101,11 @@
 				"MAX_HP":20,
 				"ATK_RANGE":4,
 				"ATK_SPEED":1,
+				"ATK_COOLTIME":2,
 				"SIGHT":5,
 				"DEATH_XP":1,
-				"MOVE_SPEED":2,
+				"DEATH_GOLD":150,
+				"MOVE_SPEED":1,
 			}
 			
 		},
@@ -123,6 +129,23 @@
 						}
 					}
 				}
+			}
+		}
+	},
+	30001:{
+		"id":30001,
+		"WeaponType":"Arrow",
+		"Stats":{
+			"Props":{				
+			}
+			
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				
+			},
+			"Items":{
+				
 			}
 		}
 	}

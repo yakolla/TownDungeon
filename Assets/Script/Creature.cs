@@ -22,8 +22,11 @@ public abstract class Creature : MonoBehaviour {
 	SpeechBox		m_speechBox;
 	GuageBox		m_hpBox;
 	GuageBox		m_xpBox;
-	int				m_aniEffectCount = 0;
+    SpeechBox       m_goldSpeechBox;
+    int				m_aniEffectCount = 0;
+    float m_damagedTime;
     bool m_death = true;
+    bool m_inBuilding = false;
 
 	public void Start () {
 
@@ -34,7 +37,8 @@ public abstract class Creature : MonoBehaviour {
         m_aiPath = GetComponent<AIPath>();
 		m_animator = GetComponentInChildren<Animator>();
 		m_speechBox = transform.Find("Canvas/SpeechPanel").GetComponent<SpeechBox>();
-		m_hpBox = transform.Find("Canvas/HPPanel").GetComponent<GuageBox>();
+        m_goldSpeechBox = transform.Find("Canvas/GoldPanel").GetComponent<SpeechBox>();
+        m_hpBox = transform.Find("Canvas/HPPanel").GetComponent<GuageBox>();
 		m_xpBox = transform.Find("Canvas/XPPanel").GetComponent<GuageBox>();
 
         if (gameObject.layer == LayerMask.NameToLayer("Hero"))
@@ -52,7 +56,7 @@ public abstract class Creature : MonoBehaviour {
 
 	bool canAiUpdate()
 	{
-		return IsDeath == false && m_aniEffectCount == 0;
+		return IsDeath == false && m_aniEffectCount == 0 && m_inBuilding == false;
 	}
 	
 	// Update is called once per frame
@@ -75,8 +79,10 @@ public abstract class Creature : MonoBehaviour {
 
 		// 경험치 주자.
 		yield return new WaitForSeconds(2f);
+        Helper.Guild.StatsProp.OffsetAlphaValue(StatsPropType.GOLD, StatsProp.GetValue(StatsPropType.DEATH_GOLD));
+        m_goldSpeechBox.Speech((int)StatsProp.GetValue(StatsPropType.DEATH_GOLD) + "G");
 
-		Helper.ItemBoxs.SpawnItemBox(transform.position);
+        Helper.ItemBoxs.SpawnItemBox(transform.position);
 
 		if (attacker != null)
 		{
@@ -128,9 +134,10 @@ public abstract class Creature : MonoBehaviour {
     {
         AIAgent.Attacker = attacker;
         AIAgent.AiBehaviorRestart = true;
-
+        Animator.SetTrigger("Damage");
+        m_damagedTime = Time.time + 1.5f;
         HP -= dmg;
-        m_hpBox.Amount("-" + dmg, HP / (float)MaxHP);
+        
 
         if (HP <= 0 && IsDeath == false)
         {
@@ -158,7 +165,7 @@ public abstract class Creature : MonoBehaviour {
 
         float delay = 1 / atkSpeed;
         float aniLen = AttackAniClip.length / atkSpeed;
-        float nextToAttackTime = Time.time + delay + aniLen;        
+        float nextToAttackTime = Time.time + delay + aniLen + (StatsProp.GetValue(StatsPropType.ATK_COOLTIME) / atkSpeed);
 
         
         int dmg = (int)StatsProp.GetValue(StatsPropType.STR);
@@ -228,7 +235,6 @@ public abstract class Creature : MonoBehaviour {
             XP = XP - xpToLevelup;
             Level++;
             HP = MaxHP;
-            m_hpBox.Amount("Full", 1f);
         }
 
         // levelup
@@ -308,7 +314,20 @@ public abstract class Creature : MonoBehaviour {
     public int HP
     {
         get { return (int)StatsProp.GetValue(StatsPropType.HP); }
-        set { StatsProp.SetValue(StatsPropType.HP, Mathf.Clamp(value, 0f, MaxHP)); }
+        set {
+
+            int offset = value - HP;
+            StatsProp.SetValue(StatsPropType.HP, Mathf.Clamp(value, 0f, MaxHP));
+            
+            if (m_hpBox != null)
+            {
+                if (offset < 0)
+                    m_hpBox.Amount("" + offset, HP / (float)MaxHP);
+                else if (offset > 0)
+                    m_hpBox.Amount("+" + offset, HP / (float)MaxHP);
+            }
+            
+        }
     }
 
     public int MaxHP
@@ -328,6 +347,16 @@ public abstract class Creature : MonoBehaviour {
         set { StatsProp.SetValue(StatsPropType.XP, value); }
     }
 
+    public float DamagedTime
+    {
+        get { return m_damagedTime; }
+    }
+
+    public bool InBuilding
+    {
+        get { return m_inBuilding; }
+        set { m_inBuilding = value; }
+    }
     public abstract AIBehavior defaultAIBehavior();
 
 }

@@ -105,17 +105,23 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	{
 		m_itemIcon.transform.localScale = Vector3.Lerp(m_itemIcon.transform.localScale, m_goalScale, Time.deltaTime);
         m_xpGuageBox.Amount(m_item.XP + "/" + m_item.XPToNextLevel, m_item.XP / (float)m_item.XPToNextLevel);
+
         if (m_item.XP >= m_item.XPToNextLevel)
-		{
-			m_buttonUpgrade.gameObject.SetActive(true);
+        {
+            if (m_selected == true)
+                m_buttonUpgrade.gameObject.SetActive(true);
+            else
+                m_buttonUpgrade.gameObject.SetActive(false);
+
             m_xpGuageBox.gameObject.SetActive(false);
 
         }
-		else
-		{
-			m_buttonUpgrade.gameObject.SetActive(false);
+        else
+        {
+            m_buttonUpgrade.gameObject.SetActive(false);
             m_xpGuageBox.gameObject.SetActive(true);
         }
+        
 	}
 
     public void OnClickUpgrade()

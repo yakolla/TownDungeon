@@ -7,23 +7,20 @@ public class Mob : Creature {
 	{
 		AIBehaviorSequence aiBehaviorSequenceAttack 
             = new AIBehaviorSequence(
-                new AIBehaviorTargetToAttacker(this), 
+                new AIBehaviorAttackerToTarget(this), 
                 new AIBehaviorAttackMoveToTarget(this));
-			
-		AIBehaviorSequence aiBehaviorSequenceWander 
+
+        AIBehaviorSequence aiBehaviorSequenceWander
             = new AIBehaviorSequence(
+                new AIBehaviorWait(1F),
                 new AIBehaviorSearchSurroundingArea(this, Helper.MapArea), 
                 new AIBehaviorComposite(
-                    new AIBehaviorTargetToAttacker(this), 
+                    new AIBehaviorAttackerToTarget(this), 
                     new AIBehaviorAttackMoveToTarget(this)));
 			
-		AIBehaviorSelector aiBehaviorSelector 
-            = new AIBehaviorSelector(
-                aiBehaviorSequenceAttack, 
-                aiBehaviorSequenceWander);
-			
-		
-		return aiBehaviorSelector;
+		return new AIBehaviorSelector(
+                aiBehaviorSequenceAttack,
+                aiBehaviorSequenceWander); ;
 
 	}
 }

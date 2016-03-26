@@ -116,8 +116,9 @@ namespace Pathfinding.RVO {
 			Pathfinding.RVO.Sampled.Agent.GlobalIncompressibility = incompressibility;
 
 			var sim = GetSimulator();
-			sim.DesiredDeltaTime = 1.0f / desiredSimulationFPS;
-			sim.Interpolation = interpolation;
+            //sim.DesiredDeltaTime = 1.0f / desiredSimulationFPS;
+            sim.DesiredDeltaTime = Time.deltaTime;
+            sim.Interpolation = interpolation;
 			sim.stepScale = stepScale;
 			sim.qualityCutoff = qualityCutoff;
 			sim.algorithm = algorithm;

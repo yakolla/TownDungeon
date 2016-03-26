@@ -18,8 +18,8 @@ public class AIBehaviorSequence : AIBehavior {
 
     public override void Start ()
 	{
-		
-	}
+        
+    }
 
     
 

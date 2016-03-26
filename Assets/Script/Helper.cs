@@ -21,4 +21,9 @@ public class Helper {
 	{
 		get {return GameObject.Find("ItemBoxs").GetComponent<ItemBoxs>();}
 	}
+
+    public static Guild Guild
+    {
+        get { return GameObject.Find("Guild").GetComponent<Guild>(); }
+    }
 }

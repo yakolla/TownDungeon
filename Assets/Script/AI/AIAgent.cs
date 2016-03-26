@@ -23,11 +23,7 @@ public class AIAgent {
 	
 	// Update is called once per frame
 	public void Update () {
-
-		if (m_aiBehaviorRestart == true)
-		{
-			m_aiBehaviorRestart = false;
-		}
+		
 
         switch (m_aiBehavior.Update())
 		{

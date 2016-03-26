@@ -12,9 +12,11 @@ public class CreatureStatsMiniInfoPanel : MonoBehaviour {
 	Creature m_creature;
 	Dictionary<StatsPropType, Text>	m_statsTexts = new Dictionary<StatsPropType, Text>();
 	List<RawImage>	m_equipItems = new List<RawImage>();
+    HUDSlidingEffect m_hudSlidingEffect = null;
 	void Awake()
 	{
-		m_textName = transform.Find("ImageNameBG/TextName").GetComponent<Text>();
+        m_hudSlidingEffect = GetComponent<HUDSlidingEffect>();
+        m_textName = transform.Find("ImageNameBG/TextName").GetComponent<Text>();
 		m_imageIcon = transform.Find("ImageIcon").GetComponent<Image>();
 
 		string[] statsNames = System.Enum.GetNames(typeof(StatsPropType));
@@ -41,8 +43,16 @@ public class CreatureStatsMiniInfoPanel : MonoBehaviour {
 
 	public void SetCreature(Creature creature)
 	{
+        m_creature = creature;
+        if (creature == null)
+        {
+            m_hudSlidingEffect.Sliding(false);
+            return;
+        }
 
-		m_creature = creature;
+        m_hudSlidingEffect.Sliding(true);
+
+        
 		m_imageIcon.sprite = Helper.Photo(creature.gameObject);
 		m_textName.text = creature.CreatureName;
 
@@ -73,7 +83,6 @@ public class CreatureStatsMiniInfoPanel : MonoBehaviour {
 			{
 				a.Value.text = ((int)(m_creature.StatsProp.GetValue(a.Key))).ToString();
 			}
-		}
-
-	}
+		}        
+    }
 }

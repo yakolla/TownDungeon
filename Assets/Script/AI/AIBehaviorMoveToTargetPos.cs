@@ -17,7 +17,7 @@ public class AIBehaviorMoveToTargetPos : AIBehavior {
 	
 	public override AIBehaviorResultType Update()
 	{
-		if (m_creature.AIPath.TargetReached)
+        if (m_creature.AIPath.TargetReached)
 		{
 			return AIBehaviorResultType.SUCCESS;
 		}

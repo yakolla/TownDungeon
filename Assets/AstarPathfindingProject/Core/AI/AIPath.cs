@@ -239,20 +239,9 @@ public class AIPath : MonoBehaviour {
 
 	public void SearchPath (Transform target) {
 
-		canSearchAgain = false;
-		canSearch = true;
-		targetReached = false;
-		//Alternative way of requesting the path
-		//ABPath p = ABPath.Construct (GetFeetPosition(),targetPoint,null);
-		//seeker.StartPath (p);
-		
-		//We should search from the current position
-		seeker.StartPath (GetFeetPosition(), target.position);
-		if (path != null && path.vectorPath.Count > 0)
-			lastRepath = Time.time + (Vector3.Distance(path.vectorPath[0], path.vectorPath[path.vectorPath.Count-1]) / speed);
-		else
-			lastRepath = Time.time + repathRate;
-	}
+        SearchPath(target.position);
+
+    }
 
 	public void SearchPath (Vector3 target) {		
 
@@ -266,19 +255,31 @@ public class AIPath : MonoBehaviour {
 		//We should search from the current position
 		seeker.StartPath (GetFeetPosition(), target);
 		if (path != null && path.vectorPath.Count > 0)
-			lastRepath = Time.time + (Vector3.Distance(path.vectorPath[0], path.vectorPath[path.vectorPath.Count-1]) / speed);
+			lastRepath = Time.time + (Vector3.Distance(tr.position, target)*1.5f / speed);
 		else
 			lastRepath = Time.time + repathRate;
-	}
 
-	public void StopPath()
+        if (rvoController != null)
+        {
+            rvoController.locked = false;
+        }
+    }
+
+	public void ClearPath()
 	{
 		if (path != null)
 		{
 			path.Release(this);
 			path = null;
 		}
-	}
+
+        if (rvoController != null)
+        {
+            rvoController.locked = true;
+        }
+
+        targetReached = false;
+    }
 
 	public virtual void OnTargetReached () {
 		//End of path has been reached
@@ -361,9 +362,12 @@ public class AIPath : MonoBehaviour {
 
 	public virtual void Update () {
 
-		if (!canMove) { return; }
+		if (!canMove)
+        {            
+            return;
+        }        
 
-		Vector3 dir = CalculateVelocity (GetFeetPosition());
+        Vector3 dir = CalculateVelocity (GetFeetPosition());
 
 
 
@@ -454,8 +458,12 @@ public class AIPath : MonoBehaviour {
 		//Rotate towards targetDirection (filled in by CalculateVelocity)
 		RotateTowards (targetDirection);
 
-		if (lastRepath < Time.time || (currentWaypointIndex == vPath.Count-1 && targetDist <= endReachedDistance)) {
-			if (!targetReached) { OnTargetReached (); }
+        if (lastRepath < Time.time || (currentWaypointIndex == vPath.Count-1 && targetDist <= endReachedDistance))
+        {
+            if (!targetReached)
+            {
+                OnTargetReached ();
+            }
 
 			//Send a move request, this ensures gravity is applied
 			return Vector3.zero;

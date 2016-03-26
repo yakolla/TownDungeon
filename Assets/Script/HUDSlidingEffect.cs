@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class HUDSlidingEffect : MonoBehaviour{
 
+    [SerializeField]
     bool m_open = false;
     [SerializeField]
     float m_speed = 1f;
@@ -25,14 +26,21 @@ public class HUDSlidingEffect : MonoBehaviour{
         m_goal = m_init;
     }
 
-	public void OnClickQuick()
+    public void Sliding(bool open)
+    {
+        m_open = open;
+
+        if (m_open == true)
+            m_goal = m_init + m_offset;
+        else
+            m_goal = m_init;
+    }
+
+    public void OnClickQuick()
     {
         m_open = !m_open;
 
-        if (m_open == true)
-            m_goal = m_init+m_offset;
-        else
-            m_goal = m_init;
+        Sliding(m_open);
     }
     
     void Update()

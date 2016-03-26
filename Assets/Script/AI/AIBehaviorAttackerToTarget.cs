@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AIBehaviorTargetToAttacker : AIBehavior {
+public class AIBehaviorAttackerToTarget : AIBehavior {
 
 	protected Creature		m_creature;
 
-	public AIBehaviorTargetToAttacker(Creature creature)
+	public AIBehaviorAttackerToTarget(Creature creature)
 	{
 		m_creature = creature;
 	}

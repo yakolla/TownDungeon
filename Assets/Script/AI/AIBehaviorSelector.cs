@@ -18,8 +18,8 @@ public class AIBehaviorSelector : AIBehavior {
 
 	public override void Start ()
 	{
-		
-	}
+        
+    }
 
 	public override AIBehaviorResultType Update()
 	{

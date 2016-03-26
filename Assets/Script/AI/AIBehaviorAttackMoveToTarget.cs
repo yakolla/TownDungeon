@@ -25,19 +25,27 @@ public class AIBehaviorAttackMoveToTarget : AIBehavior {
 	
 	public override AIBehaviorResultType Update()
 	{
-		if (m_attack.Update() == AIBehaviorResultType.FAIL)
+        if (m_creature.DamagedTime > Time.time)
+        {
+            moveStop = true;
+            m_creature.AIPath.ClearPath();
+            return AIBehaviorResultType.RUNNING;
+        }
+
+        if (m_attack.Update() == AIBehaviorResultType.FAIL)
 		{
-			if (moveStop == true)
-			{
-				m_move.Start();
-				moveStop = false;
-			}
-			return m_move.Update();
-		}
+            if (moveStop == true)
+            {
+                m_move.Start();
+                moveStop = false;                
+            }
+
+            return m_move.Update();
+        }
 
 		if (moveStop == false)
 		{
-			m_creature.AIPath.StopPath();
+			m_creature.AIPath.ClearPath();
 			moveStop = true;
 		}
 

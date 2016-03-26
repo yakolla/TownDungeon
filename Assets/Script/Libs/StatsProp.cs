@@ -13,6 +13,7 @@ public enum StatsPropType
 	SIGHT,
 	ATK_RANGE,
 	ATK_SPEED,
+    ATK_COOLTIME,
     ITEM_XP,
 	XP,
 	DEATH_XP,

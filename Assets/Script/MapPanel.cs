@@ -9,6 +9,7 @@ public class MapPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointer
 	Vector3	m_goalPos;
 	GameObject m_followingTarget;
 
+    
 	CreatureStatsMiniInfoPanel	m_creatureStatsMiniInfoPanel;
 	GameObject				m_buildingInfoPanel;
     void Awake()
@@ -35,7 +36,8 @@ public class MapPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointer
 			{
                 Building building = m_followingTarget.GetComponent<Building>();
                 m_buildingInfoPanel = building.HudGUI;
-                m_buildingInfoPanel.SetActive(true);
+                if (m_buildingInfoPanel != null)
+                    m_buildingInfoPanel.SetActive(true);
 			}
 			else
 			{
@@ -50,7 +52,8 @@ public class MapPanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointer
 		else
 		{
 			m_goalPos = Camera.main.transform.position;
-		}
+            m_creatureStatsMiniInfoPanel.SetCreature(null);
+        }
 	}
 
 	public void OnPointerDown(PointerEventData eventData)

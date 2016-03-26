@@ -206,7 +206,11 @@ namespace Pathfinding.RVO {
 		 */
 		public void Move (Vector3 vel) {
 			desiredVelocity = vel;
-		}
+            if (lockWhenNotMoving)
+            {
+                locked = desiredVelocity == Vector3.zero;
+            }
+        }
 
 		/** Teleport the agent to a new position.
 		 * The agent will be moved instantly and not show ugly interpolation artifacts during a split second.
@@ -227,15 +231,16 @@ namespace Pathfinding.RVO {
 
 			if ( rvoAgent == null ) return;
 
-			if (lastPosition != tr.position) {
-				Teleport (tr.position);
-			}
+            if (lastPosition != tr.position)
+            {
+                Teleport(tr.position);
+            }
 
-			if (lockWhenNotMoving) {
-				locked = desiredVelocity == Vector3.zero;
-			}
+            UpdateAgentProperties();
 
-			UpdateAgentProperties ();
+            if (locked == true) {
+                return;
+			}
 
 			RaycastHit hit;
 
@@ -243,7 +248,7 @@ namespace Pathfinding.RVO {
 			Vector3 realPos = rvoAgent.InterpolatedPosition;
 			realPos.y = adjustedY;
 
-			if (mask != 0 && Physics.Raycast (realPos + Vector3.up*height*0.5f,Vector3.down, out hit, float.PositiveInfinity, mask)) {
+			if (mask != 0 && Physics.Raycast (realPos + Vector3.up*height*0.5f,Vector3.down, out hit, 0, mask)) {
 				adjustedY = hit.point.y;
 			} else {
 				adjustedY = 0;
@@ -279,7 +284,8 @@ namespace Pathfinding.RVO {
 			tr.position = realPos + Vector3.up*height*0.5f - center;
 			lastPosition = tr.position;
 
-			if ( enableRotation && velocity != Vector3.zero ) transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation ( velocity ), Time.deltaTime * rotationSpeed * Mathf.Min (velocity.magnitude, 0.2f) );
+			if ( enableRotation && velocity != Vector3.zero )
+                transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.LookRotation ( velocity ), Time.deltaTime * rotationSpeed * Mathf.Min (velocity.magnitude, 0.2f) );
 		}
 
 		private static readonly Color GizmoColor = new Color(240/255f,213/255f,30/255f);

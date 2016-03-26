@@ -1,0 +1,17 @@
+{
+	"RefCreatureID":30001,
+	"Stats":{
+		"Props":{
+				
+		}
+	},
+	"ItemInventory":{
+		"EquipItems":{
+				
+		},
+		"Items":{
+				
+		}
+	}
+
+}
