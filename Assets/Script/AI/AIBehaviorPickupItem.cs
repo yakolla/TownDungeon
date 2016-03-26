@@ -34,14 +34,9 @@ public class AIBehaviorPickupItem : AIBehavior {
 		if (target == null)
 			return AIBehaviorResultType.FAIL;
 
-		m_creature.transform.LookAt(target.transform, Vector3.up);
 
-		m_creature.OnPickUpItem(target);
-
-		m_creature.Animator.SetTrigger("PickUp");
-		float aniLen = m_creature.AttackAniClip.length;
-		m_attackableTime = Time.time + aniLen;
-
+        m_attackableTime = m_creature.OnPickUpItem(target);
+		
 		return AIBehaviorResultType.RUNNING;
 	}
 }

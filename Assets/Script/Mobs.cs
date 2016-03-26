@@ -36,7 +36,7 @@ public class Mobs : Creatures
                 if (boss == true)
                     scale *= 1.8f;
 
-                RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(2, keyList.Count)]];
+                RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(2, keyList.Count-1)]];
                 CreatureSerializeFileds fileds = new CreatureSerializeFileds();
                 fileds.RefCreatureID = randRefCreature.id;
                 fileds.ItemInventory = randRefCreature.ItemInventory;

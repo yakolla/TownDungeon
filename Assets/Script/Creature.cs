@@ -214,10 +214,20 @@ public abstract class Creature : MonoBehaviour {
 
     }
 
-	public void OnPickUpItem(ItemBox itemBox)
+	public float OnPickUpItem(ItemBox itemBox)
 	{
-		Destroy(itemBox.gameObject);
-	}
+
+        transform.LookAt(itemBox.transform, Vector3.up);
+
+        Animator.SetTrigger("PickUp");
+        float aniLen = AttackAniClip.length;
+        float nextToAttackTime = Time.time + aniLen;
+
+        GameObject.Destroy(itemBox.gameObject);
+
+        return nextToAttackTime;
+
+    }
 
     
 

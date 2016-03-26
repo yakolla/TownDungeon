@@ -16,6 +16,7 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	Button		m_buttonUpgrade;
     Button      m_buttonEquip;
     Button m_buttonUnEquip;
+    Text m_textUpgrade;
     Item m_item;
     bool m_isEquip = false;
 
@@ -24,6 +25,7 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		m_xpGuageBox = GetComponentInChildren<GuageBox>();
 		m_itemIcon = transform.Find("ImageIcon").GetComponent<Image>();
 		m_buttonUpgrade = transform.Find("ImageIcon/ButtonUpgrade").GetComponent<Button>();
+        m_textUpgrade = transform.Find("ImageIcon/ButtonUpgrade/Text").GetComponent<Text>();
         m_buttonEquip = transform.Find("ImageIcon/ButtonEquip").GetComponent<Button>();
         m_buttonUnEquip = transform.Find("ImageIcon/ButtonUnEquip").GetComponent<Button>();
         m_selectedImage = transform.Find("ImageSelected").GetComponent<Image>();
@@ -109,11 +111,12 @@ public class HUDItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (m_item.XP >= m_item.XPToNextLevel)
         {
             if (m_selected == true)
-                m_buttonUpgrade.gameObject.SetActive(true);
-            else
-                m_buttonUpgrade.gameObject.SetActive(false);
+            {
+                m_textUpgrade.text = NumberString.ToSI((m_item.Level+1)*100)+"G";
+            }
 
-            m_xpGuageBox.gameObject.SetActive(false);
+            m_buttonUpgrade.gameObject.SetActive(m_selected);
+            m_xpGuageBox.gameObject.SetActive(!m_selected);
 
         }
         else

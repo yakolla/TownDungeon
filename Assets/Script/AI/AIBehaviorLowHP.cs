@@ -17,7 +17,7 @@ public class AIBehaviorLowHP : AIBehavior {
 
 	public override AIBehaviorResultType Update()
 	{
-		if (m_creature.HP/(float)m_creature.MaxHP < 0.2f)
+		if (m_creature.HP < 10)
 			return AIBehaviorResultType.SUCCESS;
 
 		return AIBehaviorResultType.FAIL;

@@ -31,8 +31,8 @@ public class Hero : Creature {
                 new AIBehaviorMoveToTargetPos(this),
                 new AIBehaviorEnterBuilding(this));
 
+        
         return new AIBehaviorSelector(                
-                aiBehaviorSequenceEnemyAttack,
                 aiBehaviorSequencePickupItem,
                 aiBehaviorSequenceGotoInn,
                 aiBehaviorSequenceWander);
