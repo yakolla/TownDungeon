@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Building : MonoBehaviour
+public class Building : Creature
 {
 
-    [SerializeField]
     GameObject m_hud;
 
     HashSet<Creature> m_creatures = new HashSet<Creature>();
@@ -17,8 +16,12 @@ public class Building : MonoBehaviour
 
     void Start()
     {
+        base.Start();
+        GameObject canvas = GameObject.Find("MainCanvas") as GameObject;
+        Transform tr = canvas.transform.Find(name + "InfoPanel");
+        if (tr != null)
+            m_hud = tr.gameObject;
         StartCoroutine(LoopChargeHP());
-
     }
 
     public void Enter(Creature creature)
@@ -54,5 +57,15 @@ public class Building : MonoBehaviour
         }
         
     }
-    
+
+    public override AIBehavior defaultAIBehavior()
+    {        
+        AIBehaviorSequence aiBehaviorSequenceEnemyAttack
+            = new AIBehaviorSequence(
+                new AIBehaviorSearchEnemy(this),
+                new AIBehaviorAttack(this));
+
+        return aiBehaviorSequenceEnemyAttack;
+    }
+
 }

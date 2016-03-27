@@ -45,13 +45,20 @@ public abstract class Creature : MonoBehaviour {
             m_layerMaskForEnemy = 1 << LayerMask.NameToLayer("Mob");
         else if (gameObject.layer == LayerMask.NameToLayer("Mob"))
             m_layerMaskForEnemy = 1 << LayerMask.NameToLayer("Hero");
-        
+        else if (gameObject.layer == LayerMask.NameToLayer("Building"))
+            m_layerMaskForEnemy = 1 << LayerMask.NameToLayer("Mob");
+
         m_aiAgent = new AIAgent();
         m_aiAgent.Init(this, defaultAIBehavior());
 
         m_death = false;
-        m_aiPath.speed = StatsProp.GetValue(StatsPropType.MOVE_SPEED);
-        GetComponent<Pathfinding.RVO.RVOController>().maxSpeed = m_aiPath.speed;
+
+        if (m_aiPath != null)
+        {
+            m_aiPath.speed = StatsProp.GetValue(StatsPropType.MOVE_SPEED);
+            GetComponent<Pathfinding.RVO.RVOController>().maxSpeed = m_aiPath.speed;
+        }
+        
     }
 
 	bool canAiUpdate()
@@ -74,8 +81,12 @@ public abstract class Creature : MonoBehaviour {
 
 	IEnumerator LoopCheckDeathDone(Creature attacker)
 	{
-		AIPath.enabled = false;
-		GetComponent<Pathfinding.RVO.RVOController>().enabled = false;
+        if (AIPath != null)
+        {
+            AIPath.enabled = false;
+            GetComponent<Pathfinding.RVO.RVOController>().enabled = false;
+        }
+		
 
 		// 경험치 주자.
 		yield return new WaitForSeconds(2f);

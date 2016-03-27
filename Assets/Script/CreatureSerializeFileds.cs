@@ -9,6 +9,7 @@ public class CreatureSerializeFileds {
 	public int		RefCreatureID = 0;
     public StatsProp Stats = null;
     public ItemInventory ItemInventory = null;
+    public Vector3 StartPos = Vector3.zero;
 
     public void Init(Creature creature)
     {

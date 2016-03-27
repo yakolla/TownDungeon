@@ -20,6 +20,7 @@ public enum WeaponType
 public class RefCreature
 {
     public int id;
+    public string SkinName;
     public StatsProp Stats;
     public ItemInventory ItemInventory;
     [JsonConverter(typeof(StringEnumConverter))]
@@ -41,8 +42,10 @@ public class RefDataMgr {
 	
 	Dictionary<int, RefCreature>		m_refCreatures = new Dictionary<int, RefCreature>();
 	Dictionary<int, RefItem>			m_refItems = new Dictionary<int, RefItem>();
+    List<int> m_refMobs = new List<int>();
+    List<int> m_refHeros = new List<int>();
 
-	static RefDataMgr m_ins = null;
+    static RefDataMgr m_ins = null;
 	static public RefDataMgr Instance
 	{
 		get {
@@ -62,7 +65,9 @@ public class RefDataMgr {
 	{
 		FileMgr.Deserialize(ref m_refCreatures, "RefData/RefCreatures");
 		FileMgr.Deserialize(ref m_refItems, "RefData/RefItems");
-	}
+        FileMgr.Deserialize(ref m_refMobs, "RefData/RefMobs");
+        FileMgr.Deserialize(ref m_refHeros, "RefData/RefHeros");
+    }
 
 	public Dictionary<int, RefItem> RefItems
 	{
@@ -73,4 +78,14 @@ public class RefDataMgr {
 	{
 		get {return m_refCreatures;}
 	}
+
+    public List<int> RefMobs
+    {
+        get { return m_refMobs; }
+    }
+
+    public List<int> RefHeros
+    {
+        get { return m_refHeros; }
+    }
 }

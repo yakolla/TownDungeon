@@ -1,0 +1,56 @@
+{
+	1:{
+		"RefCreatureID":50001,
+		"StartPos":{"x":-14.6, "y":0, "z":5},
+		"Stats":{
+			"Props":{
+				
+			}
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				
+			},
+			"Items":{
+				
+			}
+		}
+
+	},
+	4:{
+		"RefCreatureID":50002,
+		"StartPos":{"x":-16.74, "y":0, "z":16.83},
+		"Stats":{
+			"Props":{
+				
+			}
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				
+			},
+			"Items":{
+				
+			}
+		}
+
+	},
+	5:{
+		"RefCreatureID":50003,
+		"StartPos":{"x":-12.73, "y":0, "z":18.18},
+		"Stats":{
+			"Props":{
+				
+			}
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				
+			},
+			"Items":{
+				
+			}
+		}
+
+	}
+}

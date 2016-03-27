@@ -6,6 +6,7 @@ public class Guild : MonoBehaviour
 {
 
     CreatureSerializeFileds m_serializeFileds = new CreatureSerializeFileds();
+    List<Creature> m_members = new List<Creature>();
     
     void Awake()
     {
@@ -17,4 +18,8 @@ public class Guild : MonoBehaviour
         get { return m_serializeFileds.Stats; }
     }
 
+    public List<Creature> Members
+    {
+        get { return m_members; }
+    }
 }

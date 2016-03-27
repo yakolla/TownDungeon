@@ -2,6 +2,7 @@
 	1:{
 		"id":1,
 		"WeaponType":"Thunder",
+		"SkinName":"Police_White",
 		"Stats":{
 			"Props":{
 				"STR":4,
@@ -17,6 +18,7 @@
 	2:{
 		"id":2,
 		"WeaponType":"IceMeteo",
+		"SkinName":"Police_White",
 		"Stats":{
 			"Props":{
 				"STR":2,
@@ -54,6 +56,7 @@
 	},
 	10000:{
 		"id":10000,
+		"SkinName":"BeachBabe_Black",
 		"WeaponType":"Sword",
 		"Stats":{
 			"Props":{
@@ -94,6 +97,7 @@
 	},
 	10001:{
 		"id":10001,
+		"SkinName":"BeachBabe_Black",
 		"WeaponType":"Arrow",
 		"Stats":{
 			"Props":{
@@ -137,6 +141,66 @@
 		"WeaponType":"Arrow",
 		"Stats":{
 			"Props":{				
+			}
+			
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				
+			},
+			"Items":{
+				
+			}
+		}
+	},
+	50001:{
+		"id":50001,
+		"SkinName":"CannonTower",
+		"WeaponType":"Arrow",
+		"Stats":{
+			"Props":{
+				"STR":2,
+				"MAX_HP":20,
+				"ATK_RANGE":20,
+				"ATK_SPEED":1,
+				"ATK_COOLTIME":1,
+				"SIGHT":20
+			}
+			
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				
+			},
+			"Items":{
+				
+			}
+		}
+	},
+	50002:{
+		"id":50002,
+		"SkinName":"InnBuilding",
+		"WeaponType":"Arrow",
+		"Stats":{
+			"Props":{
+			}
+			
+		},
+		"ItemInventory":{
+			"EquipItems":{
+				
+			},
+			"Items":{
+				
+			}
+		}
+	},
+	50003:{
+		"id":50003,
+		"SkinName":"WeaponBuilding",
+		"WeaponType":"Arrow",
+		"Stats":{
+			"Props":{
 			}
 			
 		},

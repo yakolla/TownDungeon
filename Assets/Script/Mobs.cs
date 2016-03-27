@@ -17,15 +17,15 @@ public class Mobs : Creatures
     void Start()
     {
 
-        m_rtArea = new Rect((m_area.position.x - m_area.localScale.x / 2f), (m_area.position.z - m_area.localScale.z / 2f), m_area.localScale.x / 2f, m_area.localScale.z / 2f);
+        m_rtArea = new Rect((m_area.position.x - m_area.localScale.x / 2f), (m_area.position.z - m_area.localScale.z / 2f), m_area.position.x+m_area.localScale.x, m_area.position.z+m_area.localScale.z);
         StartCoroutine(LoopSpawn());
 
     }
 
     IEnumerator LoopSpawn()
     {
-        List<int> keyList = new List<int>(RefDataMgr.Instance.RefCreatures.Keys);
-
+        List<int> keyList = RefDataMgr.Instance.RefMobs;
+        
         while (true)
         {
             Creature[] aliveMobs = GetComponentsInChildren<Creature>();
@@ -36,12 +36,12 @@ public class Mobs : Creatures
                 if (boss == true)
                     scale *= 1.8f;
 
-                RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[keyList[Random.RandomRange(2, keyList.Count-1)]];
+                RefCreature randRefCreature = RefDataMgr.Instance.RefCreatures[Random.RandomRange(keyList[0], keyList[1]+1)];
                 CreatureSerializeFileds fileds = new CreatureSerializeFileds();
                 fileds.RefCreatureID = randRefCreature.id;
                 fileds.ItemInventory = randRefCreature.ItemInventory;
                 fileds.Stats = new StatsProp();
-                Creature mob = Spawn(fileds, new Vector3(Random.Range(m_rtArea.xMin, m_rtArea.width), 0, Random.Range(m_rtArea.yMin, m_rtArea.height)), scale);
+                Creature mob = Spawn(fileds, randRefCreature.SkinName, new Vector3(Random.Range(m_rtArea.xMin, m_rtArea.width), 0, Random.Range(m_rtArea.yMin, m_rtArea.height)), scale);
                 StartCoroutine(LoopAppearEffect(mob));
 
             }

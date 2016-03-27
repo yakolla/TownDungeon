@@ -6,10 +6,7 @@ public class Creatures : MonoBehaviour {
 	[SerializeField]
 	GameObject	m_pref;
 	[SerializeField]
-	GameObject	m_canvasPref;
-
-	[SerializeField]
-	string[] m_prefabSkinNames;
+	GameObject	m_canvasPref;    
 
 	[SerializeField]
 	string m_rootPath;
@@ -18,11 +15,11 @@ public class Creatures : MonoBehaviour {
 	// Use this for initialization
 	
 
-    public Creature Spawn(CreatureSerializeFileds fileds, Vector3 pos, Vector3 scale)
+    public Creature Spawn(CreatureSerializeFileds fileds, string prefabSkinName, Vector3 pos, Vector3 scale)
     {
         GameObject obj = Instantiate(m_pref) as GameObject;
 
-        GameObject skinObj = Instantiate(Resources.Load(m_rootPath + m_prefabSkinNames[Random.Range(0, m_prefabSkinNames.Length)])) as GameObject;
+        GameObject skinObj = Instantiate(Resources.Load(m_rootPath + prefabSkinName)) as GameObject;
         skinObj.transform.parent = obj.transform;
         skinObj.transform.name = "Skin";
 

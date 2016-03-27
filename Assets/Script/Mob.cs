@@ -13,7 +13,7 @@ public class Mob : Creature {
         AIBehaviorSequence aiBehaviorSequenceWander
             = new AIBehaviorSequence(
                 new AIBehaviorWait(1F),
-                new AIBehaviorSearchSurroundingArea(this, Helper.MapArea), 
+                new AIBehaviorSearchBuilding(this, "Building"), 
                 new AIBehaviorComposite(
                     new AIBehaviorAttackerToTarget(this), 
                     new AIBehaviorAttackMoveToTarget(this)));
