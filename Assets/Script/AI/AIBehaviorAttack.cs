@@ -31,8 +31,10 @@ public class AIBehaviorAttack : AIBehavior {
 			return AIBehaviorResultType.FAIL;
 
 		Creature target = m_creature.AIAgent.Target.GetComponent<Creature>();
-		if (target == null || target.IsDeath == true)
+		if (target == null)
 			return AIBehaviorResultType.FAIL;
+		else if (target.IsDeath == true)
+			return AIBehaviorResultType.SUCCESS;
 
         m_attackableTime = m_creature.OnFight(target);
 

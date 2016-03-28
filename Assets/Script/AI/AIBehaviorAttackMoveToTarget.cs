@@ -13,7 +13,7 @@ public class AIBehaviorAttackMoveToTarget : AIBehavior {
 	{
 		m_creature = creature;
 		m_attack = new AIBehaviorAttack(creature);
-		m_move = new AIBehaviorMoveToTargetPos(creature);
+		m_move = new AIBehaviorMoveToTargetPos(creature, true);
 	}
 
 	public override void Start()
@@ -37,7 +37,7 @@ public class AIBehaviorAttackMoveToTarget : AIBehavior {
             if (moveStop == true)
             {
                 m_move.Start();
-                moveStop = false;                
+                moveStop = false;
             }
 
             return m_move.Update();

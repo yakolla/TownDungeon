@@ -28,12 +28,14 @@ public class AIBehaviorSearchEnemy : AIBehavior {
 
         if (target == null)
         {
-            Creature[] mobs = GameObject.Find("Mobs").GetComponentsInChildren<Creature>();
-            if (mobs.Length == 0)
-				return AIBehaviorResultType.FAIL; 
+			float radius = m_creature.StatsProp.GetValue(StatsPropType.SIGHT);
+			Collider[] colls = Physics.OverlapSphere(m_creature.transform.position, radius, m_creature.LayerMaskForEnemy);
+            if (colls.Length == 0)
+                return AIBehaviorResultType.FAIL;
 
-			target = mobs[Random.Range(0, mobs.Length)].gameObject.GetComponent<Creature>();
+            target = colls[Random.RandomRange(0, colls.Length)].GetComponent<Creature>();            
         }
+
 
         if (target == null || target.IsDeath == true)
         {

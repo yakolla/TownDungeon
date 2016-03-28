@@ -18,7 +18,7 @@ public class AIBehaviorSearchSurroundingEnemy : AIBehavior {
 
 	public override AIBehaviorResultType Update()
 	{
-		Collider[] colls = Physics.OverlapSphere(m_creature.transform.position, m_creature.StatsProp.GetValue(StatsPropType.ATK_RANGE), m_creature.LayerMaskForEnemy);
+		Collider[] colls = Physics.OverlapSphere(m_creature.transform.position, m_creature.StatsProp.GetValue(StatsPropType.SIGHT), m_creature.LayerMaskForEnemy);
 		for (int i = 0; i < colls.Length; ++i)
 		{
 			Creature target = colls[i].gameObject.GetComponent<Creature>();

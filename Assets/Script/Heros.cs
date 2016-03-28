@@ -10,7 +10,7 @@ public class Heros : Creatures
     // Use this for initialization
     void Start () {
 
-        m_rtArea = new Rect((m_area.position.x - m_area.localScale.x / 2f), (m_area.position.z - m_area.localScale.z / 2f), m_area.localScale.x / 2f, m_area.localScale.z / 2f);
+        m_rtArea = new Rect((m_area.position.x - m_area.localScale.x / 2f), (m_area.position.z - m_area.localScale.z / 2f), m_area.position.x + m_area.localScale.x, m_area.position.z + m_area.localScale.z);
 
         StartCoroutine(LoopSpawn());
         

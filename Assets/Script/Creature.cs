@@ -123,7 +123,7 @@ public abstract class Creature : MonoBehaviour {
 
 		++m_aniEffectCount;
 
-		if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+		if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
 		{
 			m_animator.SetTrigger("LevelUp");
 			
@@ -135,7 +135,7 @@ public abstract class Creature : MonoBehaviour {
 
 		if (gameObject != null)
 		{
-			m_animator.SetTrigger("Idle");
+			m_animator.SetTrigger("Run");
 			--m_aniEffectCount;
 		}
 
@@ -145,7 +145,7 @@ public abstract class Creature : MonoBehaviour {
     {
         AIAgent.Attacker = attacker;
         AIAgent.AiBehaviorRestart = true;
-        Animator.SetTrigger("Damage");
+        Animator.SetTrigger("Hit");
         m_damagedTime = Time.time + 1.5f;
         HP -= dmg;
         

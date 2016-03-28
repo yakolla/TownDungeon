@@ -14,9 +14,7 @@ public class Mob : Creature {
             = new AIBehaviorSequence(
                 new AIBehaviorWait(1F),
                 new AIBehaviorSearchBuilding(this, "Building"), 
-                new AIBehaviorComposite(
-                    new AIBehaviorAttackerToTarget(this), 
-                    new AIBehaviorAttackMoveToTarget(this)));
+                new AIBehaviorMoveToTargetPos(this, true));
 			
 		return new AIBehaviorSelector(
                 aiBehaviorSequenceAttack,

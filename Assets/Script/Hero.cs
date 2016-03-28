@@ -9,7 +9,7 @@ public class Hero : Creature {
             = new AIBehaviorSequence(
                    new AIBehaviorWait(1f),
                    new AIBehaviorSearchSurroundingItem(this), 
-                   new AIBehaviorMoveToTargetPos(this), 
+                   new AIBehaviorMoveToTargetPos(this, false), 
                    new AIBehaviorPickupItem(this));
 		
 		AIBehaviorSequence aiBehaviorSequenceEnemyAttack 
@@ -20,21 +20,20 @@ public class Hero : Creature {
         AIBehaviorSequence aiBehaviorSequenceWander
             = new AIBehaviorSequence(
                 new AIBehaviorSearchSurroundingArea(this, Helper.MapArea),
-                new AIBehaviorComposite(
-                    new AIBehaviorSearchEnemy(this),
-                    new AIBehaviorAttackMoveToTarget(this)));
+                new AIBehaviorAttackMoveToTarget(this));
 
         AIBehaviorSequence aiBehaviorSequenceGotoInn
             = new AIBehaviorSequence(
                 new AIBehaviorLowHP(this),
                 new AIBehaviorSearchBuilding(this, "InnBuilding"),
-                new AIBehaviorMoveToTargetPos(this),
+                new AIBehaviorMoveToTargetPos(this, false),
                 new AIBehaviorEnterBuilding(this));
 
         
         return new AIBehaviorSelector(                
                 aiBehaviorSequencePickupItem,
                 aiBehaviorSequenceGotoInn,
+				aiBehaviorSequenceEnemyAttack,
                 aiBehaviorSequenceWander);
 		
 	}

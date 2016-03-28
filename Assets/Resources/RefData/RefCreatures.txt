@@ -1,33 +1,33 @@
 {
 	1:{
 		"id":1,
-		"WeaponType":"Thunder",
-		"SkinName":"Police_White",
+		"WeaponType":"Sword",
+		"SkinName":"NPC_Blacksmith1",
 		"Stats":{
 			"Props":{
 				"STR":4,
 				"MAX_HP":40,
-				"ATK_RANGE":8,
+				"ATK_RANGE":3,
 				"ATK_SPEED":1,
 				"ATK_COOLTIME":1,
 				"MOVE_SPEED":3,
-				"SIGHT":9
+				"SIGHT":10
 			}
 		}
 	},
 	2:{
 		"id":2,
-		"WeaponType":"IceMeteo",
-		"SkinName":"Police_White",
+		"WeaponType":"Sword",
+		"SkinName":"NPC_Builder1",
 		"Stats":{
 			"Props":{
 				"STR":2,
 				"MAX_HP":20,
-				"ATK_RANGE":8,
+				"ATK_RANGE":3,
 				"ATK_SPEED":1,
 				"ATK_COOLTIME":1,
 				"MOVE_SPEED":3,
-				"SIGHT":9
+				"SIGHT":10
 			}
 			
 		},
@@ -56,7 +56,7 @@
 	},
 	10000:{
 		"id":10000,
-		"SkinName":"BeachBabe_Black",
+		"SkinName":"NPC_Female_Empty",
 		"WeaponType":"Sword",
 		"Stats":{
 			"Props":{
@@ -97,7 +97,7 @@
 	},
 	10001:{
 		"id":10001,
-		"SkinName":"BeachBabe_Black",
+		"SkinName":"NPC_Female_Empty",
 		"WeaponType":"Arrow",
 		"Stats":{
 			"Props":{
