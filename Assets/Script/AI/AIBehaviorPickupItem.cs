@@ -21,9 +21,6 @@ public class AIBehaviorPickupItem : AIBehavior {
 	public override AIBehaviorResultType Update()
 	{
 
-		if (Time.time < m_attackableTime)
-			return AIBehaviorResultType.RUNNING;
-
 		if (m_creature.AIAgent.Target == null)
 			return AIBehaviorResultType.FAIL;
 
@@ -35,8 +32,8 @@ public class AIBehaviorPickupItem : AIBehavior {
 			return AIBehaviorResultType.FAIL;
 
 
-        m_attackableTime = m_creature.OnPickUpItem(target);
+        m_creature.OnPickUpItem(target);
 		
-		return AIBehaviorResultType.RUNNING;
+		return AIBehaviorResultType.SUCCESS;
 	}
 }

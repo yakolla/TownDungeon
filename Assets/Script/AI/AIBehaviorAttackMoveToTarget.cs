@@ -28,6 +28,7 @@ public class AIBehaviorAttackMoveToTarget : AIBehavior {
         if (m_creature.DamagedTime > Time.time)
         {
             moveStop = true;
+			m_creature.Animator.SetTrigger("Idle");
             m_creature.AIPath.ClearPath();
             return AIBehaviorResultType.RUNNING;
         }
@@ -45,6 +46,7 @@ public class AIBehaviorAttackMoveToTarget : AIBehavior {
 
 		if (moveStop == false)
 		{
+			m_creature.Animator.SetTrigger("Idle");
 			m_creature.AIPath.ClearPath();
 			moveStop = true;
 		}

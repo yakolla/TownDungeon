@@ -123,7 +123,7 @@ public abstract class Creature : MonoBehaviour {
 
 		++m_aniEffectCount;
 
-		if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+		if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Run") || m_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
 		{
 			m_animator.SetTrigger("LevelUp");
 			
@@ -135,9 +135,19 @@ public abstract class Creature : MonoBehaviour {
 
 		if (gameObject != null)
 		{
-			m_animator.SetTrigger("Run");
+			m_animator.SetTrigger("Idle");
 			--m_aniEffectCount;
 		}
+
+	}
+
+	IEnumerator LoopPickUp()
+	{
+		++m_aniEffectCount;
+		m_animator.SetTrigger("PickUp");
+		yield return new WaitForSeconds(2f);
+		m_animator.SetTrigger("Idle");
+		--m_aniEffectCount;
 
 	}
 
@@ -153,7 +163,7 @@ public abstract class Creature : MonoBehaviour {
         if (HP <= 0 && IsDeath == false)
         {
             m_death = true;
-            m_animator.SetBool("Death", true);
+			m_animator.SetTrigger("Death");
             StartCoroutine(LoopCheckDeathDone(attacker));
         }
     }
@@ -225,18 +235,14 @@ public abstract class Creature : MonoBehaviour {
 
     }
 
-	public float OnPickUpItem(ItemBox itemBox)
+	public void OnPickUpItem(ItemBox itemBox)
 	{
 
         transform.LookAt(itemBox.transform, Vector3.up);
 
-        Animator.SetTrigger("PickUp");
-        float aniLen = AttackAniClip.length;
-        float nextToAttackTime = Time.time + aniLen;
-
+		StartCoroutine(LoopPickUp());
+        
         GameObject.Destroy(itemBox.gameObject);
-
-        return nextToAttackTime;
 
     }
 

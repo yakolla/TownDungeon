@@ -8,5 +8,9 @@ public class ItemBox : MonoBehaviour {
 
 	}	
 
-
+	public GameObject PreOrder
+	{
+		get;
+		set;
+	}
 }

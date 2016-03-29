@@ -22,9 +22,17 @@ public class AIBehaviorSearchSurroundingItem : AIBehavior {
         
         if (colls.Length == 0)
             return AIBehaviorResultType.FAIL;
-        
-		m_creature.AIAgent.Target = colls[0].gameObject;
 
+		ItemBox itemBox = colls[Random.Range(0, colls.Length)].gameObject.GetComponent<ItemBox>();
+		if (itemBox == null)
+			return AIBehaviorResultType.FAIL;
+
+		if (itemBox.PreOrder != null)
+			return AIBehaviorResultType.FAIL;
+        
+		m_creature.AIAgent.Target = itemBox.gameObject;
+		itemBox.PreOrder = m_creature.gameObject;
+		itemBox.gameObject.layer = 0;
 		return AIBehaviorResultType.SUCCESS;		
 	}
 }
